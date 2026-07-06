@@ -1,0 +1,1631 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Emirates NBD Banking — Kamila Kijenia</title>
+  <link href="https://fonts.googleapis.com/css2?family=Fragment+Mono&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    @font-face {
+      font-family: 'SF Pro Display';
+      src: local('SF Pro Display'), local('SFProDisplay-Regular'), local('.SFNSDisplay');
+      font-weight: 400;
+    }
+    @font-face {
+      font-family: 'SF Pro Display';
+      src: local('SF Pro Display Bold'), local('SFProDisplay-Bold'), local('.SFNSDisplay-Bold');
+      font-weight: 700;
+    }
+
+    :root {
+      --bg:     #EDEAE3;
+      --text:   #111111;
+      --orange: #F04E0C;
+      --muted:  #555555;
+      --border: #D8D4CC;
+      --white:  #FFFFFF;
+      --sf:     'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
+      --mono:   'Fragment Mono', 'SF Mono', monospace;
+      --pad:    clamp(20px, 4vw, 64px);
+      --max-w:  1200px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--sf);
+      background: var(--bg);
+      color: var(--text);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ─── FOOTER NAV (same as index) ─── */
+    footer {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: 32px var(--pad);
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+    .footer-name { font-family: var(--mono); font-size: 12px; color: var(--muted); }
+    .footer-nav { display: flex; gap: 6px; flex-wrap: wrap; }
+    .footer-nav a {
+      font-family: var(--mono); font-size: 12px; color: var(--muted);
+      text-decoration: none; padding: 6px 14px; border-radius: 100px;
+      transition: background .18s, color .18s;
+    }
+    .footer-nav a:hover { background: var(--border); color: var(--text); }
+    .footer-copy { font-family: var(--mono); font-size: 12px; color: var(--muted); }
+
+    /* ─── BACK LINK ─── */
+    .back {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: clamp(28px, 4vw, 48px) var(--pad) 0;
+    }
+    .back a {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--muted);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: color .18s;
+    }
+    .back a:hover { color: var(--text); }
+
+    /* ─── HERO ─── */
+    .cs-hero {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: clamp(40px, 6vw, 72px) var(--pad) clamp(48px, 6vw, 80px);
+    }
+    .cs-eyebrow {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--orange);
+      margin-bottom: 18px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .cs-hero h1 {
+      font-family: var(--sf);
+      font-size: clamp(34px, 5.5vw, 62px);
+      font-weight: 700;
+      line-height: 1.06;
+      letter-spacing: -1.8px;
+      color: var(--text);
+      margin-bottom: 0;
+      max-width: 100%;
+    }
+    .cs-hero h1 .accent { color: var(--orange); }
+    .cs-hero-inner {
+      display: flex;
+      flex-direction: column;
+      gap: 40px;
+      padding-bottom: 0;
+    }
+    .cs-hero-left { min-width: 0; }
+    .cs-hero-right {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 24px 0;
+      margin-bottom: clamp(40px, 6vw, 72px);
+    }
+    .cs-hero-right .flow-metric {
+      align-items: flex-start;
+      padding: 0 24px;
+      border-right: 1px solid var(--border);
+    }
+    .cs-hero-right .flow-metric:first-child { padding-left: 0; }
+    .cs-hero-right .flow-metric:last-child { border-right: none; padding-right: 0; }
+    .cs-hero-right .flow-metric-val {
+      font-size: clamp(28px, 4vw, 46px);
+      letter-spacing: -1px;
+    }
+
+    /* ─── HERO IMAGE BAND ─── */
+    .cs-cover {
+      max-width: var(--max-w);
+      margin: 0 auto clamp(60px, 8vw, 100px);
+      padding: 0 var(--pad);
+    }
+    .cs-cover-inner {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .cs-cover svg { display: none; }
+    .cs-cover-wrap {
+      background: #E3DED6;
+      border-radius: 14px;
+      padding: clamp(16px, 2vw, 28px);
+      width: 100%;
+    }
+    .cs-cover-screenshot {
+      width: 100%;
+      border-radius: 10px;
+      display: block;
+      box-shadow: 0 2px 24px rgba(0,0,0,0.12);
+    }
+
+    /* ─── CONTENT WRAPPER ─── */
+    .cs-body {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: 0 var(--pad) clamp(80px, 10vw, 140px);
+    }
+
+    /* ─── SECTION ─── */
+    .cs-section {
+      padding: 56px 0;
+      border-top: 1px solid var(--border);
+    }
+    @media (max-width: 720px) {
+      .cs-hero-inner { flex-direction: column; align-items: flex-start; gap: 24px; }
+      .cs-hero-right { flex-wrap: wrap; gap: 0; }
+      .cs-hero-right .flow-metric { align-items: flex-start; }
+      .flow-metric-lbl { text-align: left; }
+      .flow-metric-delta { text-align: left; }
+    }
+    .cs-section-label {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 20px;
+      position: sticky;
+      top: 0;
+      background: var(--bg);
+      padding: 12px 0;
+      z-index: 10;
+    }
+    .cs-section-body { min-width: 0; }
+    .cs-section-body h2 {
+      font-family: var(--sf);
+      font-size: clamp(22px, 2.6vw, 32px);
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      line-height: 1.2;
+      color: var(--text);
+      margin-bottom: 20px;
+    }
+    .cs-section-body p {
+      font-family: var(--sf);
+      font-size: 16px;
+      color: var(--muted);
+      line-height: 1.8;
+      margin-bottom: 16px;
+      max-width: 640px;
+    }
+    .cs-section-body p:last-child { margin-bottom: 0; }
+    .cs-section-body strong { color: var(--text); font-weight: 600; }
+
+    /* ─── CARLOTA-STYLE TWO-COL TEXT BLOCK ─── */
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: clamp(24px, 3vw, 56px);
+      align-items: start;
+    }
+    @media (max-width: 700px) { .two-col { grid-template-columns: 1fr; } }
+    .two-col .col-label {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 14px;
+    }
+    .two-col .col-heading {
+      font-family: var(--sf);
+      font-size: clamp(18px, 2vw, 24px);
+      font-weight: 700;
+      letter-spacing: -0.4px;
+      line-height: 1.2;
+      color: var(--text);
+      margin-bottom: 14px;
+    }
+    .two-col .col-prose {
+      font-family: var(--sf);
+      font-size: 15px;
+      color: var(--muted);
+      line-height: 1.8;
+      margin-bottom: 10px;
+    }
+    /* full-width image inside a section (padded, rounded bg) */
+    .img-full-wrap {
+      background: #E3DED6;
+      border-radius: 10px;
+      padding: clamp(16px, 2vw, 28px);
+      margin-bottom: clamp(28px, 3vw, 44px);
+    }
+    .img-full-wrap img {
+      width: 100%;
+      border-radius: 6px;
+      display: block;
+      box-shadow: 0 2px 24px rgba(0,0,0,0.12);
+    }
+
+    /* ─── PAIN POINTS / BULLETS ─── */
+    .cs-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 20px;
+      max-width: 640px;
+    }
+    .cs-list li {
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+      font-family: var(--sf);
+      font-size: 15px;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+    .cs-list li::before {
+      content: '—';
+      color: var(--orange);
+      font-family: var(--mono);
+      font-size: 12px;
+      flex-shrink: 0;
+      margin-top: 3px;
+    }
+
+    /* ─── STEP CARDS ─── */
+    .cs-steps {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      margin-top: 8px;
+    }
+    .cs-step {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 24px 28px;
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+    }
+    .cs-step-num {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--muted);
+      min-width: 28px;
+      padding-top: 3px;
+    }
+    .cs-step-content h3 {
+      font-family: var(--sf);
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 6px;
+    }
+    .cs-step-content p {
+      font-family: var(--sf);
+      font-size: 14px;
+      color: var(--muted);
+      line-height: 1.7;
+      margin: 0;
+      max-width: none;
+    }
+
+    /* ─── IMAGE PLACEHOLDER ─── */
+    .cs-img {
+      width: 100%;
+      border-radius: 10px;
+      background: #E0D9F0;
+      aspect-ratio: 16 / 9;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 24px 0;
+      overflow: hidden;
+      position: relative;
+    }
+    .cs-img-label {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: #9B8AB4;
+    }
+    .cs-img.tall { aspect-ratio: 4 / 3; }
+
+    /* ─── BEFORE/AFTER ─── */
+    .cs-ba {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin: 20px 0;
+      align-items: stretch;
+    }
+    @media (max-width: 600px) { .cs-ba { grid-template-columns: 1fr; } }
+    .cs-ba-card { border-radius: 8px; overflow: hidden; border: 1px solid var(--border); display: flex; flex-direction: column; }
+    .cs-ba-card .ba-screen { flex: 1; }
+    .cs-ba-label {
+      font-family: var(--mono);
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      padding: 7px 14px;
+      display: flex; align-items: center; gap: 6px;
+    }
+    .cs-ba-label.before { background: #fdf0ee; color: #c0392b; border-bottom: 1px solid #f5d0ca; }
+    .cs-ba-label.after  { background: #edfaf2; color: #1e8449; border-bottom: 1px solid #bde8ce; }
+    /* screen mockup container */
+    .ba-screen {
+      background: #F5F5F4;
+      padding: 16px;
+      font-family: -apple-system, sans-serif;
+    }
+    /* simulated browser/phone shell */
+    .ba-shell {
+      background: #fff;
+      border: 1px solid #DDD;
+      border-radius: 4px;
+      overflow: hidden;
+    }
+    .ba-shell-bar {
+      height: 28px;
+      background: #F0F0EE;
+      border-bottom: 1px solid #E4E4E2;
+      display: flex; align-items: center;
+      padding: 0 10px; gap: 5px;
+    }
+    .ba-dot { width: 7px; height: 7px; border-radius: 50%; }
+    .ba-url {
+      flex: 1; height: 14px; background: #E4E4E2;
+      border-radius: 3px; margin: 0 8px;
+    }
+    .ba-body { padding: 12px 14px; }
+    /* old-style elements */
+    .ba-old-nav {
+      display: flex; gap: 6px; margin-bottom: 10px;
+      padding-bottom: 8px; border-bottom: 2px solid #001E5E;
+    }
+    .ba-old-nav span {
+      font-size: 9px; color: #555; padding: 2px 6px;
+      cursor: default;
+    }
+    .ba-old-nav span.act { color: #001E5E; font-weight: 700; border-bottom: 2px solid #001E5E; margin-bottom: -10px; }
+    .ba-old-hero {
+      background: #001E5E; color: #fff;
+      padding: 10px 10px 8px; border-radius: 2px;
+      margin-bottom: 8px;
+    }
+    .ba-old-hero-t { font-size: 9px; font-weight: 700; margin-bottom: 2px; }
+    .ba-old-hero-s { font-size: 7px; opacity: .7; }
+    .ba-old-form { margin-top: 8px; }
+    .ba-old-lbl { font-size: 7px; color: #333; margin-bottom: 2px; font-weight: 600; }
+    .ba-old-input {
+      width: 100%; height: 20px;
+      border: 1px solid #BBB; border-radius: 1px;
+      background: #fff; margin-bottom: 6px;
+    }
+    .ba-old-btn {
+      width: 100%; height: 20px;
+      background: #001E5E; border-radius: 1px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .ba-old-btn span { font-size: 7px; color: #fff; font-weight: 700; }
+    /* problem annotation */
+    .ba-ann {
+      font-size: 11px; color: #111;
+      display: flex; align-items: flex-start; gap: 8px;
+      margin-top: 6px; line-height: 1.5;
+    }
+    .ba-ann::before {
+      content: '';
+      flex-shrink: 0;
+      width: 16px; height: 16px;
+      background: url('assets/icon-x.svg') center/contain no-repeat;
+      margin-top: 2px;
+    }
+    /* new-style elements */
+    .ba-new-hero {
+      padding: 10px 0 8px;
+      margin-bottom: 10px;
+      border-bottom: 1px solid #EBEBEA;
+    }
+    .ba-new-eyebrow { font-size: 7px; color: #999; margin-bottom: 3px; text-transform: uppercase; letter-spacing: .06em; }
+    .ba-new-title { font-size: 11px; font-weight: 700; color: #111; line-height: 1.3; }
+    .ba-new-lbl { font-size: 7px; color: #555; margin-bottom: 2px; font-weight: 600; }
+    .ba-new-input {
+      width: 100%; height: 22px;
+      border: 1.5px solid #001E5E; border-radius: 2px;
+      background: #fff; margin-bottom: 6px;
+    }
+    .ba-new-input.focus { border-color: #4CC9D4; box-shadow: 0 0 0 2px rgba(76,201,212,.15); }
+    .ba-new-btn {
+      width: 100%; height: 22px;
+      background: #001E5E; border-radius: 2px;
+      display: flex; align-items: center; justify-content: center;
+      margin-top: 2px;
+    }
+    .ba-new-btn span { font-size: 7px; color: #fff; font-weight: 700; }
+    .ba-new-link { font-size: 7px; color: #001E5E; text-align: center; margin-top: 5px; text-decoration: underline; }
+    /* improvement annotation */
+    .ba-pro {
+      font-size: 11px; color: #111;
+      display: flex; align-items: flex-start; gap: 8px;
+      margin-top: 6px; line-height: 1.5;
+    }
+    .ba-pro::before {
+      content: '✓';
+      flex-shrink: 0;
+      font-size: 9px;
+      font-weight: 700;
+      color: #fff;
+      background: #1e8449;
+      border-radius: 50%;
+      width: 16px; height: 16px;
+      display: flex; align-items: center; justify-content: center;
+      margin-top: 2px;
+      line-height: 1;
+    }
+    /* onboarding specific */
+    .ba-steps { display: flex; gap: 3px; margin-bottom: 8px; }
+    .ba-step { flex: 1; height: 3px; border-radius: 1px; background: #E4E4E2; }
+    .ba-step.done { background: #001E5E; }
+    .ba-step.active { background: #4CC9D4; }
+    /* loan specific */
+    .ba-cards { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 4px; margin-bottom: 8px; }
+    .ba-card-item {
+      border: 1px solid #DDD; border-radius: 2px;
+      padding: 4px; font-size: 6.5px; color: #555;
+      display: flex; flex-direction: column; gap: 2px;
+    }
+    .ba-card-item .ba-card-icon { width: 10px; height: 10px; border-radius: 50%; background: #E4E4E2; margin-bottom: 2px; }
+    .ba-slider {
+      height: 3px; background: #E4E4E2; border-radius: 2px;
+      margin: 6px 0 2px; position: relative;
+    }
+    .ba-slider-fill { height: 100%; width: 60%; background: #001E5E; border-radius: 2px; }
+    .ba-slider-thumb { width: 8px; height: 8px; border-radius: 50%; background: #001E5E; border: 1.5px solid #fff; position: absolute; top: -2.5px; left: 57%; box-shadow: 0 1px 3px rgba(0,0,0,.2); }
+
+    /* ─── HIGHLIGHT QUOTE ─── */
+    .cs-quote {
+      border-left: 3px solid var(--orange);
+      padding: 16px 24px;
+      margin: 28px 0;
+      background: rgba(240,78,12,0.04);
+      border-radius: 0 8px 8px 0;
+    }
+    .cs-quote p {
+      font-family: var(--sf);
+      font-size: 17px;
+      font-weight: 600;
+      color: var(--text);
+      line-height: 1.6;
+      margin: 0;
+      max-width: none;
+    }
+
+    /* ─── TAGS ROW ─── */
+    .cs-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 20px;
+    }
+    .cs-tag {
+      font-family: var(--mono);
+      font-size: 11px;
+      padding: 4px 12px;
+      border-radius: 100px;
+      border: 1px solid var(--border);
+      color: var(--muted);
+    }
+
+    /* ─── SITEMAP TREE ─── */
+    .sitemap {
+      background: #E3DED6;
+      border-radius: 14px;
+      padding: clamp(16px, 2vw, 28px);
+      margin: 20px 0;
+      overflow-x: auto;
+      font-family: -apple-system, sans-serif;
+    }
+    .sitemap svg {
+      box-shadow: 0 2px 24px rgba(0,0,0,0.12);
+      border-radius: 6px;
+      background: white;
+      display: block;
+    }
+    .sitemap-title {
+      font-family: var(--mono);
+      font-size: 10px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      margin-bottom: 20px;
+    }
+    .sm-tree { display: flex; flex-direction: column; gap: 0; }
+    /* root node */
+    .sm-root {
+      display: inline-flex; align-items: center;
+      background: #111; color: #fff;
+      font-size: 9px; font-weight: 700;
+      padding: 4px 10px; border-radius: 2px;
+      margin-bottom: 0; letter-spacing: .02em;
+    }
+    /* level 1 row */
+    .sm-l1-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 0;
+      margin-top: 0;
+      padding-top: 16px;
+      position: relative;
+    }
+    /* vertical stem from root */
+    .sm-l1-row::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 19px;
+      width: 1px; height: 16px;
+      background: #C8C8C8;
+    }
+    .sm-l1-group {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      margin-right: 20px;
+      position: relative;
+    }
+    /* horizontal branch line across l1 groups */
+    .sm-l1-row > .sm-l1-group:not(:last-child)::after {
+      content: '';
+      position: absolute;
+      top: -16px; left: 19px;
+      height: 1px;
+      background: #C8C8C8;
+      /* width set inline */
+    }
+    .sm-l1-node {
+      display: inline-flex; align-items: center;
+      background: #fff; border: 1px solid #ABABAB;
+      font-size: 8px; font-weight: 600; color: #222;
+      padding: 3px 9px; border-radius: 2px;
+      white-space: nowrap; margin-bottom: 6px;
+    }
+    .sm-l1-node.problem { border-color: #C0392B; color: #C0392B; }
+    .sm-l2-list {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      padding-left: 12px;
+      border-left: 1px solid #E0E0DE;
+      margin-left: 10px;
+    }
+    .sm-l2 {
+      font-size: 7.5px; color: #666;
+      display: flex; align-items: center; gap: 5px;
+      white-space: nowrap;
+    }
+    .sm-l2::before {
+      content: '';
+      display: block;
+      width: 8px; height: 1px;
+      background: #E0E0DE;
+      flex-shrink: 0;
+    }
+    .sm-l2.dead { color: #C0392B; }
+    .sm-l2.dead::after { content: ' ✕'; font-size: 7px; }
+    .sm-l2.dup  { color: #E8A838; }
+    .sm-l2.dup::after  { content: ' ◈'; font-size: 7px; }
+    /* legend */
+    .sm-legend {
+      display: flex; gap: 16px; margin-top: 16px; flex-wrap: wrap;
+    }
+    .sm-leg-item {
+      display: flex; align-items: center; gap: 5px;
+      font-size: 8px; color: #999;
+    }
+
+    /* ─── WIREFLOW DIAGRAM ─── */
+    .wf-wrap {
+      width: 100%;
+      border-radius: 14px;
+      background: #E3DED6;
+      margin: 28px 0;
+      font-family: -apple-system, 'Inter', sans-serif;
+      overflow-x: hidden;
+      padding: clamp(16px, 2vw, 28px);
+    }
+    .wf-canvas {
+      background: white;
+      border-radius: 10px;
+      padding: 28px 28px 36px;
+      box-shadow: 0 2px 24px rgba(0,0,0,0.12);
+    }
+    .wf-flow2-scroll {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+    /* flow group separator */
+    .wf-sep {
+      border: none;
+      border-top: 1px solid #E0DDD8;
+      margin: 44px 0 36px;
+    }
+    /* group label */
+    /* ── per-flow metric strip ── */
+    .flow-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 24px;
+      margin-bottom: 16px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--border);
+    }
+    .flow-title {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text);
+      letter-spacing: 0;
+      padding-top: 2px;
+    }
+    .flow-metrics {
+      display: flex;
+      gap: 0;
+      flex-shrink: 0;
+    }
+    .flow-metric {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      padding: 0 20px;
+      border-right: 1px solid var(--border);
+    }
+    .flow-metric:first-child { padding-left: 0; }
+    .flow-metric:last-child  { border-right: none; padding-right: 0; }
+    .flow-metric-val {
+      font-family: var(--sf);
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      line-height: 1;
+      color: var(--text);
+    }
+    .flow-metric-lbl {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.4;
+      text-align: left;
+      margin-top: 3px;
+    }
+    .flow-metric-delta {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: #4A9A6A;
+      margin-top: 1px;
+      text-align: left;
+    }
+
+    .wf-group-label {
+      font-size: 10px; color: #ABABAB;
+      margin-bottom: 22px;
+      letter-spacing: 0;
+    }
+    /* phase headers row */
+    .wf-phases {
+      display: flex;
+      margin-bottom: 14px;
+      padding-left: 52px;
+    }
+    .wf-ph {
+      font-size: 10px; color: #999;
+      text-align: center;
+      white-space: nowrap;
+    }
+    /* single row */
+    .wf-row {
+      display: flex;
+      align-items: flex-start;
+      margin-bottom: 48px;
+    }
+    .wf-row:last-child { margin-bottom: 0; }
+    /* actor */
+    .wf-actor {
+      flex-shrink: 0;
+      width: 54px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 14px 4px;
+      margin-right: 10px;
+      background: white;
+      border-radius: 8px;
+      border: 1px solid #E8E8E5;
+    }
+    .wf-actor svg { display: block; }
+    .wf-actor-lbl {
+      font-size: 8px; color: #888;
+      text-align: center; margin-top: 4px;
+      line-height: 1.3;
+    }
+    /* nodes row */
+    .wf-nodes {
+      display: flex;
+      align-items: flex-start;
+      flex-wrap: nowrap;
+    }
+    /* screen node */
+    .wn {
+      flex-shrink: 0;
+      width: 86px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .wn-num {
+      font-size: 7px; color: #C0C0C0;
+      align-self: flex-end;
+      margin-bottom: 2px;
+      font-family: monospace;
+    }
+    .wn-screen {
+      width: 86px; height: 60px;
+      border: 1px solid #ABABAB;
+      background: #fff;
+      border-radius: 2px;
+      display: flex;
+      flex-direction: column;
+      padding: 5px 5px 4px;
+      gap: 3px;
+      position: relative;
+      overflow: hidden;
+    }
+    /* top bar of screen */
+    .ws-hdr {
+      height: 5px;
+      background: #CACACA;
+      width: calc(100% + 10px);
+      margin: -5px -5px 3px;
+      flex-shrink: 0;
+    }
+    /* inner lines */
+    .ws-l { height: 3px; border-radius: 1px; background: #E8E8E8; flex-shrink: 0; }
+    .ws-l.d { background: #C8C8C8; }
+    .ws-l.w100 { width: 100%; }
+    .ws-l.w80  { width: 80%; }
+    .ws-l.w65  { width: 65%; }
+    .ws-l.w50  { width: 50%; }
+    .ws-l.w40  { width: 40%; }
+    .ws-box {
+      border: 1px solid #E8E8E8;
+      border-radius: 1px;
+      height: 9px; width: 100%;
+      flex-shrink: 0;
+    }
+    .ws-2col { display: flex; gap: 2px; flex-shrink: 0; }
+    .ws-2col .ws-box { flex: 1; height: 8px; }
+    .ws-3col { display: flex; gap: 2px; flex-shrink: 0; }
+    .ws-3col .ws-box { flex: 1; height: 8px; }
+    .ws-btn {
+      height: 7px; border-radius: 1px;
+      background: #C0C0C0; width: 50%;
+      margin-top: auto; flex-shrink: 0;
+    }
+    .ws-btn.full { width: 100%; }
+    .wn-label {
+      font-size: 8.5px; font-weight: 600; color: #333;
+      margin-top: 6px; text-align: center; line-height: 1.3;
+    }
+    .wn-desc {
+      font-size: 7.5px; color: #AAA;
+      text-align: center; margin-top: 2px;
+      line-height: 1.4; max-width: 84px;
+    }
+    /* arrow */
+    .wa {
+      flex-shrink: 0;
+      display: flex; align-items: center;
+      width: 28px;
+      position: relative;
+      top: 26px;
+    }
+    .wa-line { height: 1px; background: #C0C0C0; flex: 1; }
+    .wa-head {
+      width: 0; height: 0;
+      border-top: 3px solid transparent;
+      border-bottom: 3px solid transparent;
+      border-left: 5px solid #C0C0C0;
+    }
+    .wa-lbl {
+      position: absolute; top: -10px; left: 50%;
+      transform: translateX(-50%);
+      font-size: 7px; color: #BABABA;
+      white-space: nowrap;
+      background: #F8F8F6; padding: 0 2px;
+    }
+    /* decision diamond */
+    .wd {
+      flex-shrink: 0;
+      width: 36px; height: 36px;
+      background: #fff;
+      border: 1px solid #ABABAB;
+      transform: rotate(45deg);
+      border-radius: 2px;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 4px;
+      position: relative; top: 14px;
+    }
+    .wd-txt {
+      transform: rotate(-45deg);
+      font-size: 6.5px; font-weight: 600; color: #888;
+      text-align: center; line-height: 1.2;
+      white-space: nowrap;
+    }
+    /* branch down arrow (vertical) */
+    .wa-down {
+      width: 1px; height: 28px;
+      background: #C0C0C0;
+      position: relative; left: 43px;
+      margin-bottom: -28px;
+      flex-shrink: 0;
+    }
+    .wf-branch-row {
+      display: flex;
+      align-items: flex-start;
+      margin-top: 8px;
+      padding-left: 56px;
+    }
+
+    /* ─── NEXT PROJECT ─── */
+    .cs-next {
+      border-top: 1px solid var(--border);
+      padding: 56px 0 0;
+    }
+    .cs-next-label {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 20px;
+    }
+    .cs-next a {
+      display: inline-flex;
+      align-items: baseline;
+      gap: 12px;
+      text-decoration: none;
+      color: var(--text);
+      transition: gap .2s;
+    }
+    .cs-next a:hover { gap: 20px; }
+    .cs-next-title {
+      font-family: var(--sf);
+      font-size: clamp(24px, 3.5vw, 44px);
+      font-weight: 700;
+      letter-spacing: -1px;
+      color: var(--text);
+    }
+    .cs-next-arrow {
+      font-size: clamp(20px, 2.5vw, 32px);
+      color: var(--orange);
+    }
+  </style>
+</head>
+<body>
+
+<!-- ─── BACK ─── -->
+<div class="back">
+  <a href="index.html">← All work</a>
+</div>
+
+<!-- ─── HERO ─── -->
+<div class="cs-hero">
+  <p class="cs-eyebrow">Emirates NBD Bank — B2C Redesign</p>
+  <div class="cs-hero-inner">
+    <div class="cs-hero-left">
+      <h1>24-minute workflows now take 5.</h1>
+    </div>
+    <div class="cs-hero-right">
+      <div class="flow-metric">
+        <div class="flow-metric-val">34%</div>
+        <div class="flow-metric-lbl">task completion rate</div>
+        <div class="flow-metric-delta">↑ from 61%</div>
+      </div>
+      <div class="flow-metric">
+        <div class="flow-metric-val">13→5</div>
+        <div class="flow-metric-lbl">button variants consolidated<br>across the platform</div>
+        <div class="flow-metric-delta"></div>
+      </div>
+      <div class="flow-metric">
+        <div class="flow-metric-val">6</div>
+        <div class="flow-metric-lbl">product teams on one<br>shared component library</div>
+        <div class="flow-metric-delta"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ─── COVER ─── -->
+<div class="cs-cover">
+  <div class="cs-cover-inner">
+    <svg viewBox="60 22 184 352" fill="white" xmlns="http://www.w3.org/2000/svg">
+      <path d="m120.9 234.4c3.2-85.7 49.4-161.6 118.9-210.9h-46.1c-56.4 48.9-94.2 117.6-95.7 193.8-1.3 60.5 10.4 106.4 42.5 152.8h11.7c-25.1-42.7-33-87.4-31.3-135.7z"/>
+      <path d="m128.6 370c-27.8-29.5-61.4-85-65.3-145-4.9-73.4 19.4-144.8 68.4-201.4h37.9c-59.9 59.4-90.3 138.1-83.3 216.3 4.4 49.9 24.1 86.9 54.2 130.1z"/>
+      <path d="m141.4 297.8c25.3-26.2 48.9-64 56.3-101.7 10.4-52.8-3.3-96.5-4.2-99.5-0.7-2.1-1-3.6-0.7-3.7 0.8-0.5 6.1 9.1 9.8 16.6 6.9 14.6 14.5 38.1 14.1 65.2-0.5 33.6-12.5 67.1-34.3 92.9-7.5 8.9-16.1 16.8-25.9 23.5-6.3 4.2-17.3 10.2-17.6 9.6-0.3-0.4 1-1.4 2.5-2.9z"/>
+      <path d="m140.5 298.5c17-19.6 32.3-47.2 36-74.1 5.2-37.8-6.3-68.1-7.1-70.2-0.6-1.5-0.9-2.5-0.7-2.6 0.6-0.3 4.8 6.2 7.7 11.4 5.6 10 12 26.3 12.8 45.4 1 23.8-6.1 47.9-20.6 67-5 6.7-10.9 12.7-17.6 17.8-4.3 3.3-11.8 7.9-12.1 7.5-0.3-0.3 0.6-1 1.6-2.2z"/>
+    </svg>
+    <div class="cs-cover-wrap">
+      <img
+        class="cs-cover-screenshot"
+        src="assets/nbd-dashboard-before.png"
+        alt="Emirates NBD dashboard — before redesign"
+      />
+    </div>
+  </div>
+</div>
+
+<!-- ─── BODY ─── -->
+<div class="cs-body">
+
+  <!-- Pain Points -->
+  <div class="cs-section">
+    <div class="cs-section-label">The problem &amp; my role</div>
+    <div class="cs-section-body">
+      <!-- two-col: problem left, my role right -->
+      <div class="two-col">
+        <div>
+          <div class="col-label" style="color:var(--orange)">The problem</div>
+          <div class="col-heading">A platform that had outgrown itself.</div>
+          <p class="col-prose">Emirates NBD's digital banking product had grown organically over a decade — different teams, different tools, no shared language. The result: 13 button styles, mobile flows that were desktop UIs squeezed small, and a login experience that generated the most support calls of any touchpoint.</p>
+          <p class="col-prose">First-time users couldn't locate core tasks without help. There was no clear boundary between marketing pages and the secure zone. Accessibility failed across login, forms, and notification states.</p>
+        </div>
+        <div>
+          <div class="col-label" style="color:var(--orange)">My role</div>
+          <div class="col-heading">Lead designer, end-to-end.</div>
+          <p class="col-prose">I owned research synthesis, information architecture, interaction design, and design system build — across web and mobile. I ran heuristic evaluations, moderated usability sessions, and led alignment with 6 product teams simultaneously.</p>
+          <p class="col-prose">Embedded with engineering and a single PM, I was responsible for every decision from IA to final component spec.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Methodology -->
+  <div class="cs-section">
+    <div class="cs-section-label">Methodology</div>
+    <div class="cs-section-body">
+      <h2>How we approached it</h2>
+      <p>The work happened in two parallel tracks: understanding the current state, and building the foundation for what came next.</p>
+      <div class="cs-steps">
+        <div class="cs-step">
+          <span class="cs-step-num">01</span>
+          <div class="cs-step-content">
+            <h3>Site map of the current platform</h3>
+            <p>Mapped every page, flow, and entry point across web and mobile. Identified duplication, orphaned pages, and flows that dead-ended.</p>
+          </div>
+        </div>
+        <!-- Sitemap visual -->
+        <div class="sitemap">
+          <div class="sitemap-title">Information architecture — as found</div>
+          <svg viewBox="0 0 980 270" style="width:100%;display:block;overflow:visible" font-family="-apple-system,system-ui,sans-serif">
+
+            <!-- Root -->
+            <rect x="380" y="6" width="220" height="26" fill="#111" rx="2"/>
+            <text x="490" y="23" fill="white" font-size="10" font-weight="700" text-anchor="middle" letter-spacing=".4">EMIRATESNBD.AE</text>
+
+            <!-- Trunk + horizontal bus -->
+            <line x1="490" y1="32" x2="490" y2="54" stroke="#C8C8C8" stroke-width="1"/>
+            <line x1="90" y1="54" x2="890" y2="54" stroke="#C8C8C8" stroke-width="1"/>
+
+            <!-- Stems down to L1 nodes -->
+            <line x1="90"  y1="54" x2="90"  y2="68" stroke="#C8C8C8" stroke-width="1"/>
+            <line x1="250" y1="54" x2="250" y2="68" stroke="#C8C8C8" stroke-width="1"/>
+            <line x1="410" y1="54" x2="410" y2="68" stroke="#C8C8C8" stroke-width="1"/>
+            <line x1="570" y1="54" x2="570" y2="68" stroke="#C8C8C8" stroke-width="1"/>
+            <line x1="730" y1="54" x2="730" y2="68" stroke="#C8C8C8" stroke-width="1"/>
+            <line x1="890" y1="54" x2="890" y2="68" stroke="#C8C8C8" stroke-width="1"/>
+
+            <!-- COL 1: Personal Banking -->
+            <rect x="20" y="68" width="140" height="24" fill="white" stroke="#ABABAB" stroke-width="1" rx="2"/>
+            <text x="90" y="84" fill="#222" font-size="8" font-weight="600" text-anchor="middle">Personal Banking</text>
+            <line x1="24" y1="92" x2="24" y2="226" stroke="#E0E0DE" stroke-width="1"/>
+            <line x1="24" y1="100" x2="34" y2="100" stroke="#E0E0DE" stroke-width="1"/><text x="38" y="104" fill="#555" font-size="7.5">Accounts</text>
+            <line x1="24" y1="118" x2="34" y2="118" stroke="#E0E0DE" stroke-width="1"/><text x="38" y="122" fill="#555" font-size="7.5">Cards</text>
+            <line x1="24" y1="136" x2="34" y2="136" stroke="#E0E0DE" stroke-width="1"/><text x="38" y="140" fill="#C0392B" font-size="7.5">Loan Application <tspan font-size="8" dy="-1">&#x2715;</tspan></text>
+            <line x1="24" y1="154" x2="34" y2="154" stroke="#E0E0DE" stroke-width="1"/><text x="38" y="158" fill="#555" font-size="7.5">Mortgages</text>
+            <line x1="24" y1="172" x2="34" y2="172" stroke="#E0E0DE" stroke-width="1"/><text x="38" y="176" fill="#555" font-size="7.5">Insurance</text>
+            <line x1="24" y1="190" x2="34" y2="190" stroke="#E0E0DE" stroke-width="1"/><text x="38" y="194" fill="#555" font-size="7.5">FX &amp; Transfers</text>
+            <line x1="24" y1="208" x2="34" y2="208" stroke="#E0E0DE" stroke-width="1"/><text x="38" y="212" fill="#555" font-size="7.5">Offers</text>
+            <line x1="24" y1="226" x2="34" y2="226" stroke="#E0E0DE" stroke-width="1"/><text x="38" y="230" fill="#E8A838" font-size="7.5">Promotions <tspan font-size="9" dy="-1">&#x25C8;</tspan></text>
+
+            <!-- COL 2: Business Banking -->
+            <rect x="180" y="68" width="140" height="24" fill="white" stroke="#ABABAB" stroke-width="1" rx="2"/>
+            <text x="250" y="84" fill="#222" font-size="8" font-weight="600" text-anchor="middle">Business Banking</text>
+            <line x1="184" y1="92" x2="184" y2="208" stroke="#E0E0DE" stroke-width="1"/>
+            <line x1="184" y1="100" x2="194" y2="100" stroke="#E0E0DE" stroke-width="1"/><text x="198" y="104" fill="#555" font-size="7.5">SME Banking</text>
+            <line x1="184" y1="118" x2="194" y2="118" stroke="#E0E0DE" stroke-width="1"/><text x="198" y="122" fill="#555" font-size="7.5">Corporate</text>
+            <line x1="184" y1="136" x2="194" y2="136" stroke="#E0E0DE" stroke-width="1"/><text x="198" y="140" fill="#555" font-size="7.5">Trade Finance</text>
+            <line x1="184" y1="154" x2="194" y2="154" stroke="#E0E0DE" stroke-width="1"/><text x="198" y="158" fill="#E8A838" font-size="7.5">Business Loans <tspan font-size="9" dy="-1">&#x25C8;</tspan></text>
+            <line x1="184" y1="172" x2="194" y2="172" stroke="#E0E0DE" stroke-width="1"/><text x="198" y="176" fill="#555" font-size="7.5">Cash Management</text>
+            <line x1="184" y1="190" x2="194" y2="190" stroke="#E0E0DE" stroke-width="1"/><text x="198" y="194" fill="#555" font-size="7.5">Treasury</text>
+            <line x1="184" y1="208" x2="194" y2="208" stroke="#E0E0DE" stroke-width="1"/><text x="198" y="212" fill="#555" font-size="7.5">Business Cards</text>
+
+            <!-- COL 3: Private Banking -->
+            <rect x="340" y="68" width="140" height="24" fill="white" stroke="#ABABAB" stroke-width="1" rx="2"/>
+            <text x="410" y="84" fill="#222" font-size="8" font-weight="600" text-anchor="middle">Private Banking</text>
+            <line x1="344" y1="92" x2="344" y2="172" stroke="#E0E0DE" stroke-width="1"/>
+            <line x1="344" y1="100" x2="354" y2="100" stroke="#E0E0DE" stroke-width="1"/><text x="358" y="104" fill="#555" font-size="7.5">Wealth Mgmt</text>
+            <line x1="344" y1="118" x2="354" y2="118" stroke="#E0E0DE" stroke-width="1"/><text x="358" y="122" fill="#555" font-size="7.5">Investments</text>
+            <line x1="344" y1="136" x2="354" y2="136" stroke="#E0E0DE" stroke-width="1"/><text x="358" y="140" fill="#555" font-size="7.5">Concierge</text>
+            <line x1="344" y1="154" x2="354" y2="154" stroke="#E0E0DE" stroke-width="1"/><text x="358" y="158" fill="#C0392B" font-size="7.5">International <tspan font-size="8" dy="-1">&#x2715;</tspan></text>
+            <line x1="344" y1="172" x2="354" y2="172" stroke="#E0E0DE" stroke-width="1"/><text x="358" y="176" fill="#555" font-size="7.5">ENBD Art</text>
+
+            <!-- COL 4: Islamic Banking -->
+            <rect x="500" y="68" width="140" height="24" fill="white" stroke="#ABABAB" stroke-width="1" rx="2"/>
+            <text x="570" y="84" fill="#222" font-size="8" font-weight="600" text-anchor="middle">Islamic Banking</text>
+            <line x1="504" y1="92" x2="504" y2="172" stroke="#E0E0DE" stroke-width="1"/>
+            <line x1="504" y1="100" x2="514" y2="100" stroke="#E0E0DE" stroke-width="1"/><text x="518" y="104" fill="#555" font-size="7.5">Islamic Finance</text>
+            <line x1="504" y1="118" x2="514" y2="118" stroke="#E0E0DE" stroke-width="1"/><text x="518" y="122" fill="#555" font-size="7.5">Takaful</text>
+            <line x1="504" y1="136" x2="514" y2="136" stroke="#E0E0DE" stroke-width="1"/><text x="518" y="140" fill="#555" font-size="7.5">Islamic Savings</text>
+            <line x1="504" y1="154" x2="514" y2="154" stroke="#E0E0DE" stroke-width="1"/><text x="518" y="158" fill="#555" font-size="7.5">Home Finance</text>
+            <line x1="504" y1="172" x2="514" y2="172" stroke="#E0E0DE" stroke-width="1"/><text x="518" y="176" fill="#E8A838" font-size="7.5">Islamic Cards <tspan font-size="9" dy="-1">&#x25C8;</tspan></text>
+
+            <!-- COL 5: About / Investor -->
+            <rect x="660" y="68" width="140" height="24" fill="white" stroke="#ABABAB" stroke-width="1" rx="2"/>
+            <text x="730" y="84" fill="#222" font-size="8" font-weight="600" text-anchor="middle">About / Investor</text>
+            <line x1="664" y1="92" x2="664" y2="190" stroke="#E0E0DE" stroke-width="1"/>
+            <line x1="664" y1="100" x2="674" y2="100" stroke="#E0E0DE" stroke-width="1"/><text x="678" y="104" fill="#555" font-size="7.5">About ENBD</text>
+            <line x1="664" y1="118" x2="674" y2="118" stroke="#E0E0DE" stroke-width="1"/><text x="678" y="122" fill="#555" font-size="7.5">Press Room</text>
+            <line x1="664" y1="136" x2="674" y2="136" stroke="#E0E0DE" stroke-width="1"/><text x="678" y="140" fill="#555" font-size="7.5">Investor Relations</text>
+            <line x1="664" y1="154" x2="674" y2="154" stroke="#E0E0DE" stroke-width="1"/><text x="678" y="158" fill="#C0392B" font-size="7.5">Careers <tspan font-size="8" dy="-1">&#x2715;</tspan></text>
+            <line x1="664" y1="172" x2="674" y2="172" stroke="#E0E0DE" stroke-width="1"/><text x="678" y="176" fill="#555" font-size="7.5">Sustainability</text>
+            <line x1="664" y1="190" x2="674" y2="190" stroke="#E0E0DE" stroke-width="1"/><text x="678" y="194" fill="#555" font-size="7.5">Media Library</text>
+
+            <!-- COL 6: Secure Zone (the 3 key redesigned flows highlighted) -->
+            <rect x="820" y="68" width="140" height="24" fill="white" stroke="#ABABAB" stroke-width="1" rx="2"/>
+            <text x="890" y="84" fill="#222" font-size="8" font-weight="600" text-anchor="middle">Secure Zone</text>
+            <line x1="824" y1="92" x2="824" y2="226" stroke="#E0E0DE" stroke-width="1"/>
+            <line x1="824" y1="100" x2="834" y2="100" stroke="#E0E0DE" stroke-width="1"/><text x="838" y="104" fill="#C0392B" font-size="7.5">Account opening <tspan font-size="8" dy="-1">&#x2715;</tspan></text>
+            <line x1="824" y1="118" x2="834" y2="118" stroke="#E0E0DE" stroke-width="1"/><text x="838" y="122" fill="#555" font-size="7.5">Dashboard</text>
+            <line x1="824" y1="136" x2="834" y2="136" stroke="#E0E0DE" stroke-width="1"/><text x="838" y="140" fill="#555" font-size="7.5">Transfers</text>
+            <line x1="824" y1="154" x2="834" y2="154" stroke="#E0E0DE" stroke-width="1"/><text x="838" y="158" fill="#555" font-size="7.5">Statements</text>
+            <line x1="824" y1="172" x2="834" y2="172" stroke="#E0E0DE" stroke-width="1"/><text x="838" y="176" fill="#555" font-size="7.5">Pay Bills</text>
+            <line x1="824" y1="190" x2="834" y2="190" stroke="#E0E0DE" stroke-width="1"/><text x="838" y="194" fill="#C0392B" font-size="7.5">Account Opening <tspan font-size="8" dy="-1">&#x2715;</tspan></text>
+            <line x1="824" y1="208" x2="834" y2="208" stroke="#E0E0DE" stroke-width="1"/><text x="838" y="212" fill="#555" font-size="7.5">Profile</text>
+            <line x1="824" y1="226" x2="834" y2="226" stroke="#E0E0DE" stroke-width="1"/><text x="838" y="230" fill="#555" font-size="7.5">Settings</text>
+
+            <!-- Legend: colour swatches + labels, no overlapping symbols -->
+            <rect x="20" y="250" width="9" height="9" fill="#C0392B" rx="1"/>
+            <text x="33" y="258" fill="#999" font-size="7.5">dead end / broken flow</text>
+            <rect x="195" y="250" width="9" height="9" fill="#E8A838" rx="1"/>
+            <text x="208" y="258" fill="#999" font-size="7.5">duplicate / redundant content</text>
+
+          </svg>
+        </div>
+                <div class="cs-step">
+          <span class="cs-step-num">02</span>
+          <div class="cs-step-content">
+            <h3>Discovery study with existing customers</h3>
+            <p>12 moderated sessions with retail banking customers across different digital literacy levels. Prioritised based on transaction volume data.</p>
+          </div>
+        </div>
+        <div class="cs-step">
+          <span class="cs-step-num">03</span>
+          <div class="cs-step-content">
+            <h3>Heuristic evaluation</h3>
+            <p>Scored every major flow against Nielsen's 10 heuristics. Login and account opening scored lowest — these became phase 1 redesign targets.</p>
+          </div>
+        </div>
+        <div class="cs-step">
+          <span class="cs-step-num">04</span>
+          <div class="cs-step-content">
+            <h3>Component & template audit</h3>
+            <p>Catalogued every UI pattern in use. Consolidated 13 button variants to 5. Built the first version of the shared Figma component library.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Metrics funnel — sits directly after Methodology -->
+  <div class="cs-section">
+    <div class="cs-section-label">Metrics</div>
+    <div class="cs-section-body">
+      <h2>Metrics mapped to the critical drop-off points.</h2>
+      <p>I worked with the product team to anchor the redesign to the three flows generating the highest support volume: account opening, login, and loan application. The 58% drop-off mid-way through account opening was the primary design target — users were abandoning after investing time filling fields, only then discovering they were ineligible. Closing that gap drove the rest of the work.</p>
+
+      <!-- ── Funnel + metrics ── -->
+      <div style="background:#E3DED6;border-radius:14px;padding:clamp(16px,2vw,28px);margin:32px 0;font-family:'Inter',var(--sf);">
+        <div style="font-size:9px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#A09890;margin-bottom:16px;">Account opening — drop-off by step</div>
+        <div style="background:#fff;border-radius:10px;box-shadow:0 2px 24px rgba(0,0,0,0.10);padding:28px 28px 24px;">
+          <div style="display:flex;gap:20px;margin-bottom:24px;align-items:center;">
+            <div style="display:flex;align-items:center;gap:6px;"><div style="width:28px;height:8px;background:#E0DDD8;border-radius:2px;"></div><span style="font-size:10px;color:#AAA;font-weight:500;">Before redesign</span></div>
+            <div style="display:flex;align-items:center;gap:6px;"><div style="width:28px;height:8px;background:#111;border-radius:2px;"></div><span style="font-size:10px;color:#555;font-weight:500;">After redesign</span></div>
+          </div>
+          <div style="margin-bottom:10px;"><div style="display:flex;align-items:center;gap:12px;margin-bottom:4px;"><div style="width:160px;flex-shrink:0;"><div style="font-size:11px;font-weight:600;color:#111;">Landing page</div></div><div style="flex:1;display:flex;flex-direction:column;gap:3px;"><div style="height:10px;background:#E0DDD8;border-radius:2px;width:100%;"></div><div style="height:10px;background:#111;border-radius:2px;width:100%;"></div></div><div style="width:90px;flex-shrink:0;display:flex;flex-direction:column;gap:3px;"><span style="font-size:10px;color:#AAA;font-weight:700;">100%</span><span style="font-size:10px;color:#111;font-weight:700;">100%</span></div></div></div>
+          <div style="margin-bottom:10px;"><div style="display:flex;align-items:center;gap:12px;margin-bottom:4px;"><div style="width:160px;flex-shrink:0;"><div style="font-size:11px;font-weight:600;color:#111;">Account type selected</div></div><div style="flex:1;display:flex;flex-direction:column;gap:3px;"><div style="height:10px;background:#E0DDD8;border-radius:2px;width:87%;"></div><div style="height:10px;background:#111;border-radius:2px;width:95%;"></div></div><div style="width:90px;flex-shrink:0;display:flex;flex-direction:column;gap:3px;"><span style="font-size:10px;color:#AAA;font-weight:700;">87%</span><span style="font-size:10px;color:#111;font-weight:700;">95%</span></div></div></div>
+          <div style="margin-bottom:10px;"><div style="display:flex;align-items:center;gap:12px;margin-bottom:4px;"><div style="width:160px;flex-shrink:0;"><div style="font-size:11px;font-weight:600;color:#111;">Eligibility check</div></div><div style="flex:1;display:flex;flex-direction:column;gap:3px;"><div style="height:10px;background:#E0DDD8;border-radius:2px;width:71%;"></div><div style="height:10px;background:#111;border-radius:2px;width:91%;"></div></div><div style="width:90px;flex-shrink:0;display:flex;flex-direction:column;gap:3px;"><span style="font-size:10px;color:#AAA;font-weight:700;">71%</span><span style="font-size:10px;color:#111;font-weight:700;">91%</span></div></div></div>
+          <div style="margin-bottom:10px;position:relative;"><div style="position:absolute;right:96px;top:-2px;background:#C0392B;color:#fff;font-size:9px;font-weight:700;padding:2px 8px;border-radius:100px;white-space:nowrap;letter-spacing:0.02em;">Primary drop-off ↓ 28pp</div><div style="display:flex;align-items:center;gap:12px;margin-bottom:4px;margin-top:18px;"><div style="width:160px;flex-shrink:0;"><div style="font-size:11px;font-weight:600;color:#C0392B;">Personal details</div><div style="font-size:9px;color:#C0392B;opacity:0.7;margin-top:1px;">eligibility was buried here</div></div><div style="flex:1;display:flex;flex-direction:column;gap:3px;"><div style="height:10px;background:#E8B4AD;border-radius:2px;width:43%;border:1px solid #C0392B33;"></div><div style="height:10px;background:#111;border-radius:2px;width:86%;"></div></div><div style="width:90px;flex-shrink:0;display:flex;flex-direction:column;gap:3px;"><span style="font-size:10px;color:#C0392B;font-weight:700;">43%</span><span style="font-size:10px;color:#111;font-weight:700;">86%</span></div></div></div>
+          <div style="margin-bottom:10px;"><div style="display:flex;align-items:center;gap:12px;margin-bottom:4px;"><div style="width:160px;flex-shrink:0;"><div style="font-size:11px;font-weight:600;color:#111;">ID upload</div></div><div style="flex:1;display:flex;flex-direction:column;gap:3px;"><div style="height:10px;background:#E0DDD8;border-radius:2px;width:43%;"></div><div style="height:10px;background:#111;border-radius:2px;width:81%;"></div></div><div style="width:90px;flex-shrink:0;display:flex;flex-direction:column;gap:3px;"><span style="font-size:10px;color:#AAA;font-weight:700;">43%</span><span style="font-size:10px;color:#111;font-weight:700;">81%</span></div></div></div>
+          <div style="margin-bottom:0;"><div style="display:flex;align-items:center;gap:12px;margin-bottom:4px;"><div style="width:160px;flex-shrink:0;"><div style="font-size:11px;font-weight:700;color:#1A7A45;">Account opened ✓</div></div><div style="flex:1;display:flex;flex-direction:column;gap:3px;"><div style="height:10px;background:#E0DDD8;border-radius:2px;width:42%;"></div><div style="height:10px;background:#1A7A45;border-radius:2px;width:76%;"></div></div><div style="width:90px;flex-shrink:0;display:flex;flex-direction:column;gap:3px;"><span style="font-size:10px;color:#AAA;font-weight:700;">42%</span><span style="font-size:10px;color:#1A7A45;font-weight:700;">76%</span></div></div></div>
+          <div style="border-top:1px solid #F2EFE9;margin:24px 0 20px;"></div>
+          <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:0;border:1px solid #F2EFE9;border-radius:8px;overflow:hidden;">
+            <div style="padding:16px 18px;border-right:1px solid #F2EFE9;"><div style="font-size:9px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#C0B8AE;margin-bottom:8px;">Completion</div><div style="font-size:30px;font-weight:800;color:#111;letter-spacing:-1.5px;line-height:1;">76<span style="font-size:14px;font-weight:500;letter-spacing:0;">%</span></div><div style="font-size:10px;color:#1A7A45;font-weight:600;margin-top:4px;">↑ from 42%</div></div>
+            <div style="padding:16px 18px;border-right:1px solid #F2EFE9;"><div style="font-size:9px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#C0B8AE;margin-bottom:8px;">Time on task</div><div style="font-size:30px;font-weight:800;color:#111;letter-spacing:-1.5px;line-height:1;">6<span style="font-size:14px;font-weight:500;letter-spacing:0;">min</span></div><div style="font-size:10px;color:#1A7A45;font-weight:600;margin-top:4px;">↓ from 24 min</div></div>
+            <div style="padding:16px 18px;border-right:1px solid #F2EFE9;"><div style="font-size:9px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#C0B8AE;margin-bottom:8px;">Login success</div><div style="font-size:30px;font-weight:800;color:#111;letter-spacing:-1.5px;line-height:1;">91<span style="font-size:14px;font-weight:500;letter-spacing:0;">%</span></div><div style="font-size:10px;color:#1A7A45;font-weight:600;margin-top:4px;">↑ from 57%</div></div>
+            <div style="padding:16px 18px;"><div style="font-size:9px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#C0B8AE;margin-bottom:8px;">SUS score</div><div style="font-size:30px;font-weight:800;color:#111;letter-spacing:-1.5px;line-height:1;">81<span style="font-size:14px;font-weight:500;letter-spacing:0;">/100</span></div><div style="font-size:10px;color:#1A7A45;font-weight:600;margin-top:4px;">↑ from 54 · Marginal→Good</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- User Flows -->
+  <div class="cs-section">
+    <div class="cs-section-label">User Flows</div>
+    <div class="cs-section-body">
+      <h2>Preparing the three highest-stakes flows</h2>
+      <p>After the heuristic evaluation and sitemap work surfaced where the platform was breaking down, I redesigned the three flows responsible for the majority of drop-offs and support calls — login, account opening, and loan application — with a single goal: reduce friction and communicate progress clearly at every step.</p>
+      <div class="cs-quote">
+        <p>"Every decision in these flows had to work for two audiences at once: a first-time mobile banking user in their 20s, and a relationship manager walking a customer through it in-branch."</p>
+      </div>
+      <div class="wf-wrap">
+        <div class="wf-canvas">
+
+          <!-- ══ FLOW 1: ACCOUNT OPENING ══ -->
+          <div class="flow-header">
+            <div class="flow-title">Account opening — new &amp; existing customers</div>
+            <div class="flow-metrics">
+              <div class="flow-metric">
+                <div class="flow-metric-val">6 min</div>
+                <div class="flow-metric-lbl">avg. time on task</div>
+                <div class="flow-metric-delta">↓ from 24:15</div>
+              </div>
+              <div class="flow-metric">
+                <div class="flow-metric-val">8/10</div>
+                <div class="flow-metric-lbl">task success rate</div>
+                <div class="flow-metric-delta">↑ from 4/10</div>
+              </div>
+              <div class="flow-metric">
+                <div class="flow-metric-val">3.9</div>
+                <div class="flow-metric-lbl">ease of use score</div>
+                <div class="flow-metric-delta">↑ from 1.8</div>
+              </div>
+            </div>
+          </div>
+          <div class="wf-flow2-scroll">
+          <div class="wf-phases">
+            <div class="wf-ph" style="width:86px">Entry</div>
+            <div class="wf-ph" style="width:28px"></div>
+            <div class="wf-ph" style="width:86px">Account type</div>
+            <div class="wf-ph" style="width:28px"></div>
+            <div class="wf-ph" style="width:86px">Personal info</div>
+            <div class="wf-ph" style="width:28px"></div>
+            <div class="wf-ph" style="width:86px">ID verification</div>
+            <div class="wf-ph" style="width:28px"></div>
+            <div class="wf-ph" style="width:86px">Financial info</div>
+            <div class="wf-ph" style="width:28px"></div>
+            <div class="wf-ph" style="width:86px">Review</div>
+            <div class="wf-ph" style="width:28px"></div>
+            <div class="wf-ph" style="width:86px">Done</div>
+          </div>
+
+          <!-- ── Path A: New customer (standard) ── -->
+          <div class="wf-row">
+            <div class="wf-actor" style="position:sticky;left:0;z-index:2;background:white;">
+              <svg width="24" height="28" viewBox="0 0 24 28" fill="none">
+                <circle cx="12" cy="8" r="5" stroke="#999" stroke-width="1.2" fill="none"/>
+                <path d="M2 26c0-5.523 4.477-10 10-10s10 4.477 10 10" stroke="#999" stroke-width="1.2" fill="none"/>
+              </svg>
+              <div class="wf-actor-lbl">New<br>customer</div>
+            </div>
+            <div class="wa" style="top:20px"><div class="wa-line"></div><div class="wa-head"></div></div>
+            <div class="wf-nodes">
+              <div class="wn"><div class="wn-num">2.0</div><div class="wn-screen"><div class="ws-hdr"></div><div class="ws-l w65 d"></div><div class="ws-3col"><div class="ws-box"></div><div class="ws-box"></div><div class="ws-box"></div></div><div class="ws-btn full"></div></div><div class="wn-label">Homepage</div><div class="wn-desc">Public entry point</div></div>
+              <div class="wa"><div class="wa-line"></div><div class="wa-head"></div><div class="wa-lbl">Open account</div></div>
+              <div class="wn"><div class="wn-num">2.1</div><div class="wn-screen"><div class="ws-hdr"></div><div class="ws-l w65 d"></div><div class="ws-3col"><div class="ws-box"></div><div class="ws-box"></div><div class="ws-box"></div></div><div class="ws-btn full"></div></div><div class="wn-label">Account type</div><div class="wn-desc">Current / savings / youth</div></div>
+              <div class="wa"><div class="wa-line"></div><div class="wa-head"></div></div>
+              <div class="wd"><div class="wd-txt">Customer<br>type?</div></div>
+              <div class="wa"><div class="wa-line"></div><div class="wa-head"></div><div class="wa-lbl">new</div></div>
+              <div class="wn"><div class="wn-num">2.2</div><div class="wn-screen"><div class="ws-hdr"></div><div class="ws-l w50"></div><div class="ws-box"></div><div class="ws-box"></div><div class="ws-btn"></div></div><div class="wn-label">Personal details</div><div class="wn-desc">Name, DOB, nationality</div></div>
+              <div class="wa"><div class="wa-line"></div><div class="wa-head"></div></div>
+              <div class="wn"><div class="wn-num">2.3</div><div class="wn-screen"><div class="ws-hdr"></div><div class="ws-l w65"></div><div class="ws-box" style="height:20px;"></div><div class="ws-btn"></div></div><div class="wn-label">Emirates ID scan</div><div class="wn-desc">Front + back capture</div></div>
+              <div class="wa"><div class="wa-line"></div><div class="wa-head"></div></div>
+              <div class="wn"><div class="wn-num">2.4</div><div class="wn-screen"><div class="ws-hdr"></div><div class="ws-box"></div><div class="ws-box"></div><div class="ws-btn"></div></div><div class="wn-label">Address &amp; contact</div><div class="wn-desc">UAE address + mobile</div></div>
+              <div class="wa"><div class="wa-line"></div><div class="wa-head"></div></div>
+              <div class="wn"><div class="wn-num">2.5</div><div class="wn-screen"><div class="ws-hdr"></div><div class="ws-box"></div><div class="ws-l w80"></div><div class="ws-btn"></div></div><div class="wn-label">Employment info</div><div class="wn-desc">Employer + salary</div></div>
+              <div class="wa"><div class="wa-line"></div><div class="wa-head"></div></div>
+              <div class="wn"><div class="wn-num">2.6</div><div class="wn-screen"><div class="ws-hdr"></div><div class="ws-l w80"></div><div class="ws-l w65"></div><div class="ws-l w50"></div><div class="ws-btn full"></div></div><div class="wn-label">Review &amp; T&amp;Cs</div><div class="wn-desc">Summary + consent</div></div>
+              <div class="wa"><div class="wa-line"></div><div class="wa-head"></div><div class="wa-lbl">submit</div></div>
+              <div class="wn"><div class="wn-num">2.7</div><div class="wn-screen"><div class="ws-hdr"></div><div class="ws-l w50" style="align-self:center;margin:6px auto 2px;"></div><div class="ws-l w65" style="align-self:center;"></div><div class="ws-l w40" style="align-self:center;"></div></div><div class="wn-label">Account live</div><div class="wn-desc">Welcome + IBAN shown</div></div>
+            </div>
+          </div>
+
+          <!-- vertical drop from decision "existing" -->
+          <div style="height:20px;border-left:1px solid #C0C0C0;margin-left:389px;"></div>
+
+          <!-- ── Path B: Existing customer (fast-track) ── -->
+          <div class="wf-row" style="padding-left:344px;">
+            <div class="wf-actor" style="position:sticky;left:0;z-index:2;background:white;">
+              <svg width="24" height="28" viewBox="0 0 24 28" fill="none">
+                <circle cx="12" cy="8" r="5" stroke="#999" stroke-width="1.2" fill="none"/>
+                <path d="M2 26c0-5.523 4.477-10 10-10s10 4.477 10 10" stroke="#999" stroke-width="1.2" fill="none"/>
+              </svg>
+              <div class="wf-actor-lbl">Existing<br>customer</div>
+            </div>
+            <div class="wf-nodes">
+              <div class="wn"><div class="wn-num">2.2e</div><div class="wn-screen"><div class="ws-hdr"></div><div class="ws-l w80"></div><div class="ws-box"></div><div class="ws-btn"></div></div><div class="wn-label">Pre-filled details</div><div class="wn-desc">KYC data auto-populated</div></div>
+              <div class="wa"><div class="wa-line"></div><div class="wa-head"></div><div class="wa-lbl">confirm</div></div>
+              <div class="wn"><div class="wn-num">2.3e</div><div class="wn-screen"><div class="ws-hdr"></div><div class="ws-l w65"></div><div class="ws-box" style="height:20px;"></div><div class="ws-btn"></div></div><div class="wn-label">Emirates ID verify</div><div class="wn-desc">Re-verify if expired</div></div>
+              <div class="wa"><div class="wa-line"></div><div class="wa-head"></div></div>
+              <div class="wn"><div class="wn-num">2.6e</div><div class="wn-screen"><div class="ws-hdr"></div><div class="ws-l w80"></div><div class="ws-l w65"></div><div class="ws-l w50"></div><div class="ws-btn full"></div></div><div class="wn-label">Review &amp; T&amp;Cs</div><div class="wn-desc">Fewer steps, same consent</div></div>
+              <div class="wa"><div class="wa-line"></div><div class="wa-head"></div><div class="wa-lbl">submit</div></div>
+              <div class="wn"><div class="wn-num">2.7</div><div class="wn-screen"><div class="ws-hdr"></div><div class="ws-l w50" style="align-self:center;margin:6px auto 2px;"></div><div class="ws-l w65" style="align-self:center;"></div><div class="ws-l w40" style="align-self:center;"></div></div><div class="wn-label">Account live</div><div class="wn-desc">Welcome + IBAN shown</div></div>
+            </div>
+          </div>
+
+          <!-- vertical drop from 2.2 Personal details → family/guardian case -->
+          <div style="height:20px;border-left:1px solid #C0C0C0;margin-left:536px;"></div>
+
+          <!-- ── Path C: Minor / family member ── -->
+          <div class="wf-row" style="padding-left:490px;margin-bottom:0;">
+            <div class="wf-actor" style="position:sticky;left:0;z-index:2;background:white;">
+              <svg width="24" height="28" viewBox="0 0 24 28" fill="none">
+                <circle cx="12" cy="8" r="5" stroke="#999" stroke-width="1.2" fill="none"/>
+                <path d="M2 26c0-5.523 4.477-10 10-10s10 4.477 10 10" stroke="#999" stroke-width="1.2" fill="none"/>
+              </svg>
+              <div class="wf-actor-lbl">Guardian +<br>minor</div>
+            </div>
+            <div class="wf-nodes">
+              <div class="wn"><div class="wn-num">2.2m</div><div class="wn-screen"><div class="ws-hdr"></div><div class="ws-l w50"></div><div class="ws-box"></div><div class="ws-box"></div><div class="ws-btn"></div></div><div class="wn-label">Minor's details</div><div class="wn-desc">Name, DOB, relation</div></div>
+              <div class="wa"><div class="wa-line"></div><div class="wa-head"></div><div class="wa-lbl">family member</div></div>
+              <div class="wn"><div class="wn-num">2.2g</div><div class="wn-screen"><div class="ws-hdr"></div><div class="ws-l w65"></div><div class="ws-box"></div><div class="ws-l w50"></div><div class="ws-btn"></div></div><div class="wn-label">Guardian consent</div><div class="wn-desc">Account holder authorises</div></div>
+              <div class="wa"><div class="wa-line"></div><div class="wa-head"></div></div>
+              <div class="wn"><div class="wn-num">2.3m</div><div class="wn-screen"><div class="ws-hdr"></div><div class="ws-box" style="height:20px;"></div><div class="ws-btn"></div></div><div class="wn-label">Minor's ID scan</div><div class="wn-desc">Birth cert. or school ID</div></div>
+              <div class="wa"><div class="wa-line"></div><div class="wa-head"></div></div>
+              <div class="wn"><div class="wn-num">2.6m</div><div class="wn-screen"><div class="ws-hdr"></div><div class="ws-l w80"></div><div class="ws-l w65"></div><div class="ws-l w50"></div><div class="ws-btn full"></div></div><div class="wn-label">Review &amp; T&amp;Cs</div><div class="wn-desc">Guardian signs off</div></div>
+              <div class="wa"><div class="wa-line"></div><div class="wa-head"></div><div class="wa-lbl">submit</div></div>
+              <div class="wn"><div class="wn-num">2.7</div><div class="wn-screen"><div class="ws-hdr"></div><div class="ws-l w50" style="align-self:center;margin:6px auto 2px;"></div><div class="ws-l w65" style="align-self:center;"></div><div class="ws-l w40" style="align-self:center;"></div></div><div class="wn-label">Account live</div><div class="wn-desc">Youth account + linked</div></div>
+            </div>
+          </div>
+          </div><!-- /wf-flow2-scroll -->
+
+          <hr class="wf-sep">
+
+          <!-- ══ FLOW 2: LOAN APPLICATION ══ -->
+          <div class="flow-header">
+            <div class="flow-title">Loan application — personal &amp; home finance</div>
+            <div class="flow-metrics">
+              <div class="flow-metric">
+                <div class="flow-metric-val">9 min</div>
+                <div class="flow-metric-lbl">avg. time on task</div>
+                <div class="flow-metric-delta">↓ from 31:05</div>
+              </div>
+              <div class="flow-metric">
+                <div class="flow-metric-val">7/10</div>
+                <div class="flow-metric-lbl">task success rate</div>
+                <div class="flow-metric-delta">↑ from 2/10</div>
+              </div>
+              <div class="flow-metric">
+                <div class="flow-metric-val">3.7</div>
+                <div class="flow-metric-lbl">ease of use score</div>
+                <div class="flow-metric-delta">↑ from 1.5</div>
+              </div>
+            </div>
+          </div>
+          <div class="wf-phases">
+            <div class="wf-ph" style="width:86px">Browse</div>
+            <div class="wf-ph" style="width:28px"></div>
+            <div class="wf-ph" style="width:86px">Eligibility</div>
+            <div class="wf-ph" style="width:32px+36px+28px"></div>
+            <div class="wf-ph" style="width:86px">Documents</div>
+            <div class="wf-ph" style="width:28px"></div>
+            <div class="wf-ph" style="width:86px">Offer</div>
+            <div class="wf-ph" style="width:28px"></div>
+            <div class="wf-ph" style="width:86px">Approval</div>
+          </div>
+          <!-- Personal loan path -->
+          <div class="wf-row">
+            <div class="wf-actor">
+              <svg width="24" height="28" viewBox="0 0 24 28" fill="none">
+                <circle cx="12" cy="8" r="5" stroke="#999" stroke-width="1.2" fill="none"/>
+                <path d="M2 26c0-5.523 4.477-10 10-10s10 4.477 10 10" stroke="#999" stroke-width="1.2" fill="none"/>
+              </svg>
+              <div class="wf-actor-lbl">Existing<br>customer</div>
+            </div>
+            <div class="wa" style="top:20px"><div class="wa-line"></div><div class="wa-head"></div></div>
+            <div class="wf-nodes">
+              <div class="wn"><div class="wn-num">3.0</div><div class="wn-screen"><div class="ws-hdr"></div><div class="ws-l w65 d"></div><div class="ws-3col"><div class="ws-box"></div><div class="ws-box"></div><div class="ws-box"></div></div><div class="ws-btn"></div></div><div class="wn-label">Products</div><div class="wn-desc">Personal / auto / home</div></div>
+              <div class="wa"><div class="wa-line"></div><div class="wa-head"></div></div>
+              <div class="wn"><div class="wn-num">3.1</div><div class="wn-screen"><div class="ws-hdr"></div><div class="ws-box"></div><div class="ws-box"></div><div class="ws-btn"></div></div><div class="wn-label">Eligibility check</div><div class="wn-desc">Salary + employer</div></div>
+              <div class="wa"><div class="wa-line"></div><div class="wa-head"></div></div>
+              <div class="wd"><div class="wd-txt">Eligible?</div></div>
+              <div class="wa"><div class="wa-line"></div><div class="wa-head"></div><div class="wa-lbl">yes</div></div>
+              <div class="wn"><div class="wn-num">3.2</div><div class="wn-screen"><div class="ws-hdr"></div><div class="ws-l w65"></div><div class="ws-box" style="height:16px;"></div><div class="ws-btn"></div></div><div class="wn-label">Upload docs</div><div class="wn-desc">Salary slip + ID</div></div>
+              <div class="wa"><div class="wa-line"></div><div class="wa-head"></div></div>
+              <div class="wn"><div class="wn-num">3.3</div><div class="wn-screen"><div class="ws-hdr"></div><div class="ws-l w80"></div><div class="ws-l w65"></div><div class="ws-l w50"></div><div class="ws-btn"></div></div><div class="wn-label">Offer & terms</div><div class="wn-desc">Rate + tenure slider</div></div>
+              <div class="wa"><div class="wa-line"></div><div class="wa-head"></div><div class="wa-lbl">accept</div></div>
+              <div class="wn"><div class="wn-num">3.4</div><div class="wn-screen"><div class="ws-hdr"></div><div class="ws-l w50" style="align-self:center;margin:6px auto 2px;"></div><div class="ws-l w65" style="align-self:center;"></div></div><div class="wn-label">Loan approved</div><div class="wn-desc">Disbursed to account</div></div>
+            </div>
+          </div>
+          <!-- Not eligible branch -->
+          <div class="wf-row" style="padding-left:242px;margin-bottom:24px">
+            <div class="wf-nodes">
+              <div class="wn" style="opacity:.35"><div class="wn-num">3.1</div><div class="wn-screen"><div class="ws-hdr"></div><div class="ws-box"></div><div class="ws-box"></div><div class="ws-btn"></div></div><div class="wn-label">Eligibility check</div></div>
+              <div class="wa"><div class="wa-line"></div><div class="wa-head"></div><div class="wa-lbl">not eligible</div></div>
+              <div class="wn"><div class="wn-num">3.5</div><div class="wn-screen"><div class="ws-hdr"></div><div class="ws-l w80"></div><div class="ws-l w65"></div><div class="ws-btn full"></div></div><div class="wn-label">Decline screen</div><div class="wn-desc">Reason + alternatives shown</div></div>
+              <div class="wa"><div class="wa-line"></div><div class="wa-head"></div></div>
+              <div class="wn"><div class="wn-num">3.6</div><div class="wn-screen"><div class="ws-hdr"></div><div class="ws-l w65 d"></div><div class="ws-3col"><div class="ws-box"></div><div class="ws-box"></div><div class="ws-box"></div></div><div class="ws-btn"></div></div><div class="wn-label">Alternative products</div><div class="wn-desc">Credit card / overdraft</div></div>
+            </div>
+          </div>
+          <!-- Home finance path -->
+          <div class="wf-row" style="padding-left:56px;margin-bottom:0">
+            <div class="wf-nodes">
+              <div class="wn" style="opacity:.35"><div class="wn-num">3.0</div><div class="wn-screen"><div class="ws-hdr"></div><div class="ws-3col"><div class="ws-box"></div><div class="ws-box"></div><div class="ws-box"></div></div><div class="ws-btn"></div></div><div class="wn-label">Products</div></div>
+              <div class="wa"><div class="wa-line"></div><div class="wa-head"></div><div class="wa-lbl">home finance</div></div>
+              <div class="wn"><div class="wn-num">3.7</div><div class="wn-screen"><div class="ws-hdr"></div><div class="ws-box"></div><div class="ws-box"></div><div class="ws-btn"></div></div><div class="wn-label">Property details</div><div class="wn-desc">Value + location</div></div>
+              <div class="wa"><div class="wa-line"></div><div class="wa-head"></div></div>
+              <div class="wn"><div class="wn-num">3.8</div><div class="wn-screen"><div class="ws-hdr"></div><div class="ws-l w65"></div><div class="ws-box" style="height:16px;"></div><div class="ws-btn"></div></div><div class="wn-label">Upload docs</div><div class="wn-desc">Title deed + valuation</div></div>
+              <div class="wa"><div class="wa-line"></div><div class="wa-head"></div></div>
+              <div class="wn"><div class="wn-num">3.9</div><div class="wn-screen"><div class="ws-hdr"></div><div class="ws-l w80"></div><div class="ws-l w65"></div><div class="ws-l w50"></div><div class="ws-btn"></div></div><div class="wn-label">Finance offer</div><div class="wn-desc">LTV + profit rate</div></div>
+              <div class="wa"><div class="wa-line"></div><div class="wa-head"></div></div>
+              <div class="wd"><div class="wd-txt">Sharia<br>compliant?</div></div>
+              <div class="wa"><div class="wa-line"></div><div class="wa-head"></div><div class="wa-lbl">confirm</div></div>
+              <div class="wn"><div class="wn-num">3.10</div><div class="wn-screen"><div class="ws-hdr"></div><div class="ws-l w50" style="align-self:center;margin:6px auto 2px;"></div><div class="ws-l w65" style="align-self:center;"></div></div><div class="wn-label">Approved</div><div class="wn-desc">Disbursement schedule</div></div>
+            </div>
+          </div>
+
+
+          <hr class="wf-sep">
+
+          <!-- ══ FLOW 3: FEATURE SAVINGS ══ -->
+          <div class="flow-header">
+            <div class="flow-title">Account opening — new &amp; existing customers</div>
+            <div class="flow-metrics">
+              <div class="flow-metric">
+                <div class="flow-metric-val">4 min</div>
+                <div class="flow-metric-lbl">avg. time on task</div>
+                <div class="flow-metric-delta">↓ from 19:40</div>
+              </div>
+              <div class="flow-metric">
+                <div class="flow-metric-val">9/10</div>
+                <div class="flow-metric-lbl">task success rate</div>
+                <div class="flow-metric-delta">↑ from 3/10</div>
+              </div>
+              <div class="flow-metric">
+                <div class="flow-metric-val">4.2</div>
+                <div class="flow-metric-lbl">ease of use score</div>
+                <div class="flow-metric-delta">↑ from 2.1</div>
+              </div>
+            </div>
+          </div>
+          <!-- phase labels -->
+          <div class="wf-phases">
+            <div class="wf-ph" style="width:86px">Dashboard</div>
+            <div class="wf-ph" style="width:28px"></div>
+            <div class="wf-ph" style="width:86px">Goal setup</div>
+            <div class="wf-ph" style="width:28px"></div>
+            <div class="wf-ph" style="width:86px">Accounts</div>
+            <div class="wf-ph" style="width:28px"></div>
+            <div class="wf-ph" style="width:86px">Spending</div>
+            <div class="wf-ph" style="width:32px"></div>
+            <div class="wf-ph" style="width:86px">Transfers</div>
+          </div>
+          <!-- ── Main path ── -->
+          <div class="wf-row">
+            <div class="wf-actor">
+              <svg width="24" height="28" viewBox="0 0 24 28" fill="none">
+                <circle cx="12" cy="8" r="5" stroke="#999" stroke-width="1.2" fill="none"/>
+                <path d="M2 26c0-5.523 4.477-10 10-10s10 4.477 10 10" stroke="#999" stroke-width="1.2" fill="none"/>
+              </svg>
+              <div class="wf-actor-lbl">Customer</div>
+            </div>
+            <div class="wa" style="top:20px"><div class="wa-line"></div><div class="wa-head"></div></div>
+            <div class="wf-nodes">
+              <div class="wn"><div class="wn-num">1.0</div><div class="wn-screen"><div class="ws-hdr"></div><div class="ws-l w65 d"></div><div class="ws-l w80"></div><div class="ws-l w50"></div><div class="ws-btn"></div></div><div class="wn-label">Dashboard</div><div class="wn-desc">Accounts overview</div></div>
+              <div class="wa"><div class="wa-line"></div><div class="wa-head"></div><div class="wa-lbl">tap Save</div></div>
+              <div class="wn"><div class="wn-num">1.1</div><div class="wn-screen"><div class="ws-hdr"></div><div class="ws-l w50"></div><div class="ws-box"></div><div class="ws-box"></div><div class="ws-btn"></div></div><div class="wn-label">Set a goal</div><div class="wn-desc">Name + target amount</div></div>
+              <div class="wa"><div class="wa-line"></div><div class="wa-head"></div></div>
+              <div class="wd"><div class="wd-txt">Type?</div></div>
+              <div class="wa"><div class="wa-line"></div><div class="wa-head"></div><div class="wa-lbl">savings</div></div>
+              <div class="wn"><div class="wn-num">1.2</div><div class="wn-screen"><div class="ws-hdr"></div><div class="ws-l w65"></div><div class="ws-2col"><div class="ws-box"></div><div class="ws-box"></div></div><div class="ws-btn"></div></div><div class="wn-label">Savings account</div><div class="wn-desc">Current / fixed / youth</div></div>
+              <div class="wa"><div class="wa-line"></div><div class="wa-head"></div><div class="wa-lbl">select</div></div>
+              <div class="wn"><div class="wn-num">1.3</div><div class="wn-screen"><div class="ws-hdr"></div><div class="ws-l w80 d"></div><div class="ws-3col"><div class="ws-box"></div><div class="ws-box"></div><div class="ws-box"></div></div></div><div class="wn-label">Spending habits</div><div class="wn-desc">Where do you spend most?</div></div>
+              <div class="wa"><div class="wa-line"></div><div class="wa-head"></div><div class="wa-lbl">confirm</div></div>
+              <div class="wn"><div class="wn-num">1.4</div><div class="wn-screen"><div class="ws-hdr"></div><div class="ws-l w80 d"></div><div class="ws-2col"><div class="ws-box"></div><div class="ws-box"></div></div><div class="ws-3col"><div class="ws-box"></div><div class="ws-box"></div><div class="ws-box"></div></div></div><div class="wn-label">Fast transfer</div><div class="wn-desc">Move money instantly</div></div>
+            </div>
+          </div>
+          <!-- ── Investment path ── -->
+          <div class="wf-row" style="padding-left:154px;margin-bottom:24px">
+            <div class="wf-nodes">
+              <div class="wn" style="opacity:.4"><div class="wn-num">1.1</div><div class="wn-screen"><div class="ws-hdr"></div><div class="ws-box"></div><div class="ws-box"></div><div class="ws-btn"></div></div><div class="wn-label">Set a goal</div></div>
+              <div class="wa"><div class="wa-line"></div><div class="wa-head"></div><div class="wa-lbl">invest</div></div>
+              <div class="wn"><div class="wn-num">1.2i</div><div class="wn-screen"><div class="ws-hdr"></div><div class="ws-l w80 d"></div><div class="ws-2col"><div class="ws-box"></div><div class="ws-box"></div></div><div class="ws-btn"></div></div><div class="wn-label">Investments</div><div class="wn-desc">Funds + bonds + sukuk</div></div>
+              <div class="wa"><div class="wa-line"></div><div class="wa-head"></div></div>
+              <div class="wn"><div class="wn-num">1.3i</div><div class="wn-screen"><div class="ws-hdr"></div><div class="ws-l w65"></div><div class="ws-box"></div><div class="ws-l w50"></div><div class="ws-btn"></div></div><div class="wn-label">Risk profile</div><div class="wn-desc">Conservative / balanced</div></div>
+              <div class="wa"><div class="wa-line"></div><div class="wa-head"></div><div class="wa-lbl">confirm</div></div>
+              <div class="wn"><div class="wn-num">1.4</div><div class="wn-screen"><div class="ws-hdr"></div><div class="ws-l w80 d"></div><div class="ws-2col"><div class="ws-box"></div><div class="ws-box"></div></div><div class="ws-3col"><div class="ws-box"></div><div class="ws-box"></div><div class="ws-box"></div></div></div><div class="wn-label">Fast transfer</div><div class="wn-desc">Move money instantly</div></div>
+            </div>
+          </div>
+          <!-- ── Round-up / auto-save path ── -->
+          <div class="wf-row" style="padding-left:154px;margin-bottom:0">
+            <div class="wf-nodes">
+              <div class="wn" style="opacity:.4"><div class="wn-num">1.1</div><div class="wn-screen"><div class="ws-hdr"></div><div class="ws-box"></div><div class="ws-box"></div><div class="ws-btn"></div></div><div class="wn-label">Set a goal</div></div>
+              <div class="wa"><div class="wa-line"></div><div class="wa-head"></div><div class="wa-lbl">auto-save</div></div>
+              <div class="wn"><div class="wn-num">1.2a</div><div class="wn-screen"><div class="ws-hdr"></div><div class="ws-l w65"></div><div class="ws-box"></div><div class="ws-l w50"></div></div><div class="wn-label">Round-up rules</div><div class="wn-desc">Per transaction or fixed</div></div>
+              <div class="wa"><div class="wa-line"></div><div class="wa-head"></div></div>
+              <div class="wn"><div class="wn-num">1.3a</div><div class="wn-screen"><div class="ws-hdr"></div><div class="ws-l w80"></div><div class="ws-l w65"></div><div class="ws-l w50"></div><div class="ws-btn full"></div></div><div class="wn-label">Confirm rule</div><div class="wn-desc">Frequency + amount cap</div></div>
+              <div class="wa"><div class="wa-line"></div><div class="wa-head"></div><div class="wa-lbl">activate</div></div>
+              <div class="wn"><div class="wn-num">1.4</div><div class="wn-screen"><div class="ws-hdr"></div><div class="ws-l w80 d"></div><div class="ws-2col"><div class="ws-box"></div><div class="ws-box"></div></div><div class="ws-3col"><div class="ws-box"></div><div class="ws-box"></div><div class="ws-box"></div></div></div><div class="wn-label">Fast transfer</div><div class="wn-desc">Move money instantly</div></div>
+            </div>
+          </div>
+        </div><!-- /wf-canvas -->
+      </div><!-- /wf-wrap -->
+    </div>
+  </div>
+
+  <!-- Before / After -->
+  <div class="cs-section">
+    <div class="cs-section-label">Before / After</div>
+    <div class="cs-section-body">
+      <h2>Critical flow redesigns</h2>
+      <p>We tackled the highest-friction flows first. Login, account opening, and loan application were responsible for the majority of support contacts.</p>
+
+      <p style="margin-top:20px;margin-bottom:10px;"><strong>Account opening</strong></p>
+      <div class="cs-ba">
+        <!-- ONBOARDING BEFORE -->
+        <div class="cs-ba-card">
+          <div class="cs-ba-label before">Before</div>
+          <div class="ba-screen">
+            <!-- annotated screenshot wrapper -->
+            <div style="background:#E3DED6;border-radius:6px;padding:20px;margin-bottom:12px;">
+            <div style="position:relative;display:block;width:100%;">
+              <img src="assets/nbd-account-form-old.png" alt="Emirates NBD account opening — before" style="width:100%;border-radius:4px;display:block;box-shadow:0 2px 24px rgba(0,0,0,0.12);"/>
+              <span style="position:absolute;top:15%;left:1%;background:#C0392B;color:#fff;font-size:9px;font-weight:700;padding:1px 5px;border-radius:2px;line-height:1.4;">1</span>
+              <span style="position:absolute;top:19.5%;left:1%;background:#C0392B;color:#fff;font-size:9px;font-weight:700;padding:1px 5px;border-radius:2px;line-height:1.4;">2</span>
+              <span style="position:absolute;top:36%;left:25%;background:#C0392B;color:#fff;font-size:9px;font-weight:700;padding:1px 5px;border-radius:2px;line-height:1.4;">3</span>
+              <span style="position:absolute;top:57%;left:25%;background:#C0392B;color:#fff;font-size:9px;font-weight:700;padding:1px 5px;border-radius:2px;line-height:1.4;">4</span>
+              <span style="position:absolute;top:67%;left:65%;background:#C0392B;color:#fff;font-size:9px;font-weight:700;padding:1px 5px;border-radius:2px;line-height:1.4;">5</span>
+              <span style="position:absolute;top:83%;left:25%;background:#C0392B;color:#fff;font-size:9px;font-weight:700;padding:1px 5px;border-radius:2px;line-height:1.4;">6</span>
+            </div>
+            </div><!-- /bg wrapper -->
+            <!-- annotation legend -->
+            <div style="margin-top:10px;display:flex;flex-direction:column;gap:5px;">
+              <div class="ba-ann">1. Two navigation bars stacked — 8+ primary items compete for attention with the form task.</div>
+              <div class="ba-ann">2. Left sidebar with account types pulls focus away — users abandon the form to explore options.</div>
+              <div class="ba-ann">3. Eligibility requirements buried above the form — users only discover them after investing time filling fields.</div>
+              <div class="ba-ann">4. 3-column layout collapses on mobile and creates unnatural reading order — eye travels across then down.</div>
+              <div class="ba-ann">5. Date of birth split into 3 separate dropdowns — high interaction cost for a single data point.</div>
+              <div class="ba-ann">6. Mobile validation format buried inside the label — users only see the error after they've already typed incorrectly.</div>
+            </div>
+          </div>
+        </div>
+        <!-- ONBOARDING AFTER -->
+        <div class="cs-ba-card">
+          <div class="cs-ba-label after">After</div>
+          <div class="ba-screen">
+            <div style="background:#E3DED6;border-radius:6px;padding:20px;margin-bottom:12px;">
+            <img src="assets/nbd-account-opening-after.png" alt="Emirates NBD account opening — redesigned" style="width:100%;border-radius:4px;display:block;box-shadow:0 2px 24px rgba(0,0,0,0.12);"/>
+            </div>
+            <div class="ba-pro">1. Clear step indicator (Step 1 2 3) — users always know where they are.</div>
+            <div class="ba-pro">2. Single focused task per screen reduces cognitive load vs. the original long form.</div>
+            <div class="ba-pro">3. Warm hero + clear CTA replaces the impersonal dark background.</div>
+          </div>
+        </div>
+      </div>
+
+      <p style="margin-top:32px;margin-bottom:10px;"><strong>Loan application</strong></p>
+      <div class="cs-ba">
+        <!-- LOAN BEFORE -->
+        <div class="cs-ba-card">
+          <div class="cs-ba-label before">Before</div>
+          <div class="ba-screen">
+            <div style="background:#E3DED6;border-radius:6px;padding:20px;margin-bottom:12px;">
+            <img src="assets/nbd-loan-before.avif" alt="Emirates NBD loan application — before" style="width:100%;border-radius:4px;display:block;box-shadow:0 2px 24px rgba(0,0,0,0.12);"/>
+            </div>
+            <div class="ba-ann">1. No sense of progress — single long form with no step indicator.</div>
+            <div class="ba-ann">2. Numerical inputs only — user has no feel for what amounts or tenures are available.</div>
+          </div>
+        </div>
+        <!-- LOAN AFTER -->
+        <div class="cs-ba-card">
+          <div class="cs-ba-label after">After</div>
+          <div class="ba-screen">
+            <div style="background:#E3DED6;border-radius:6px;padding:20px;margin-bottom:12px;">
+            <img src="assets/nbd-loan-after.png" alt="Emirates NBD loan application — redesigned" style="width:100%;border-radius:4px;display:block;box-shadow:0 2px 24px rgba(0,0,0,0.12);"/>
+            </div>
+            <div class="ba-pro">1. Single focused task per screen — amount, term and monthly payment visible at a glance.</div>
+            <div class="ba-pro">2. Live calculator replaces a multi-step form — users see their monthly cost before committing.</div>
+            <div class="ba-pro">3. "Apply" CTA appears inline with the result — no separate confirmation screen needed.</div>
+          </div>
+        </div>
+      </div>
+
+      <p style="margin-top:32px;margin-bottom:10px;"><strong>Feature Savings</strong></p>
+      <div class="cs-ba">
+        <!-- SAVINGS BEFORE -->
+        <div class="cs-ba-card">
+          <div class="cs-ba-label before">Before</div>
+          <div class="ba-screen">
+            <div style="position:relative;display:inline-block;width:100%;">
+              <img src="assets/nbd-savings-before.png" alt="Emirates NBD Feature Savings — before" style="width:100%;border-radius:6px;display:block;"/>
+              <!-- 3: repayment table arrow -->
+              <span style="position:absolute;top:35%;left:54%;background:#C0392B;color:#fff;font-size:9px;font-weight:700;width:16px;height:16px;border-radius:50%;display:flex;align-items:center;justify-content:center;line-height:1;">3</span>
+              <!-- 2: Back button arrow -->
+              <span style="position:absolute;top:41%;left:88%;background:#C0392B;color:#fff;font-size:9px;font-weight:700;width:16px;height:16px;border-radius:50%;display:flex;align-items:center;justify-content:center;line-height:1;">2</span>
+              <!-- 1: Transfers arrow -->
+              <span style="position:absolute;top:57%;left:63%;background:#C0392B;color:#fff;font-size:9px;font-weight:700;width:16px;height:16px;border-radius:50%;display:flex;align-items:center;justify-content:center;line-height:1;">1</span>
+              <!-- 4: next to transfers arrow -->
+              <span style="position:absolute;top:57%;left:36%;background:#C0392B;color:#fff;font-size:9px;font-weight:700;width:16px;height:16px;border-radius:50%;display:flex;align-items:center;justify-content:center;line-height:1;">4</span>
+            </div>
+            <div class="ba-ann">1. No option for automatic saving on the backend — session expiry wipes all form progress.</div>
+            <div class="ba-ann">2. Forms clear the current step when using the "Back" option — all input is lost.</div>
+            <div class="ba-ann">3. No option to select a custom loan period — no real-time simulation available.</div>
+            <div class="ba-ann">4. No counter for session expiry — users lose work without warning.</div>
+          </div>
+        </div>
+        <!-- SAVINGS AFTER -->
+        <div class="cs-ba-card">
+          <div class="cs-ba-label after">After</div>
+          <div class="ba-screen">
+            <div style="background:#E3DED6;border-radius:6px;padding:20px;margin-bottom:12px;">
+            <img src="assets/nbd-savings-after.png" alt="Emirates NBD Feature Savings — redesigned" style="width:100%;border-radius:4px;display:block;box-shadow:0 2px 24px rgba(0,0,0,0.12);"/>
+            </div>
+            <div class="ba-pro">1. Goal-first framing — user picks saving target category before entering numbers.</div>
+            <div class="ba-pro">2. Visual car selector with price ranges removes ambiguity around how much to save.</div>
+            <div class="ba-pro">3. Live calculator with slider shows monthly contribution and credit eligibility instantly.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Outcome -->
+  <div class="cs-section">
+    <div class="cs-section-label">Outcome</div>
+    <div class="cs-section-body">
+      <h2>What shipped, and what it changed.</h2>
+      <p>The redesign rolled out across a 14-month incremental delivery. Beyond the usability numbers, it changed how the product organisation worked — from isolated teams rebuilding solved problems to a shared system that compounded over time.</p>
+      <ul class="cs-list">
+        <li>Single Figma component library adopted across 6 product teams within the first quarter</li>
+        <li>WCAG AA compliance achieved across all primary flows</li>
+        <li>New feature design time reduced — teams stopped rebuilding solved problems</li>
+        <li>Design ops function established to maintain the shared library as a living artefact</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Next project -->
+  <div class="cs-next">
+    <p class="cs-next-label">Next project</p>
+    <a href="#">
+      <span class="cs-next-title">Control Tower AI</span>
+      <span class="cs-next-arrow">↗</span>
+    </a>
+  </div>
+
+</div>
+
+<!-- ─── FOOTER ─── -->
+<footer>
+  <span class="footer-name">Kamila Kijenia</span>
+  <nav class="footer-nav">
+    <a href="index.html">Work</a>
+    <a href="index.html#about">About</a>
+    <a href="https://linkedin.com/in/kamilakijenia" target="_blank">LinkedIn</a>
+    <a href="mailto:hello@kamilakijenia.com">Email</a>
+  </nav>
+  <span class="footer-copy">© 2026</span>
+</footer>
+
+
+</body>
+</html>

@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Screentone 2.0 — Kamila Kijenia</title>
+  <link href="https://fonts.googleapis.com/css2?family=Fragment+Mono&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    @font-face {
+      font-family: 'SF Pro Display';
+      src: local('SF Pro Display'), local('SFProDisplay-Regular'), local('.SFNSDisplay');
+      font-weight: 400;
+    }
+    @font-face {
+      font-family: 'SF Pro Display';
+      src: local('SF Pro Display Bold'), local('SFProDisplay-Bold'), local('.SFNSDisplay-Bold');
+      font-weight: 700;
+    }
+
+    :root {
+      --bg:     #EDEAE3;
+      --text:   #111111;
+      --orange: #F04E0C;
+      --muted:  #555555;
+      --border: #D8D4CC;
+      --white:  #FFFFFF;
+      --sf:     'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
+      --mono:   'Fragment Mono', 'SF Mono', monospace;
+      --pad:    clamp(20px, 4vw, 64px);
+      --max-w:  1200px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: var(--sf); background: var(--bg); color: var(--text); -webkit-font-smoothing: antialiased; }
+
+    footer {
+      max-width: var(--max-w); margin: 0 auto; padding: 32px var(--pad);
+      border-top: 1px solid var(--border); display: flex; align-items: center;
+      justify-content: space-between; flex-wrap: wrap; gap: 16px;
+    }
+    .footer-name { font-family: var(--mono); font-size: 12px; color: var(--muted); }
+    .footer-nav { display: flex; gap: 6px; flex-wrap: wrap; }
+    .footer-nav a {
+      font-family: var(--mono); font-size: 12px; color: var(--muted);
+      text-decoration: none; padding: 6px 14px; border-radius: 100px;
+      transition: background .18s, color .18s;
+    }
+    .footer-nav a:hover { background: var(--border); color: var(--text); }
+    .footer-copy { font-family: var(--mono); font-size: 12px; color: var(--muted); }
+
+    /* ── case study wrapper ── */
+    .cs-page { max-width: var(--max-w); margin: 0 auto; padding: 0 var(--pad) clamp(80px,10vw,140px); }
+
+    /* back button */
+    .cs-back {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-family: var(--mono); font-size: 12px; color: var(--muted);
+      text-decoration: none; padding: clamp(20px,3vw,40px) 0 0;
+      transition: color .2s;
+    }
+    .cs-back:hover { color: var(--text); }
+
+    /* hero */
+    .cs-hero { padding: clamp(32px,5vw,72px) 0 clamp(40px,5vw,64px); }
+    .cs-hero-inner { display: flex; flex-direction: column; gap: 40px; }
+    .cs-hero h1 {
+      font-family: var(--sf); font-size: clamp(32px,5.5vw,68px);
+      font-weight: 700; line-height: 1.05; letter-spacing: -2px;
+      color: var(--text); max-width: 100%;
+    }
+    .cs-hero h1 em { font-style: normal; color: var(--orange); }
+    .cs-hero-meta {
+      display: flex; gap: clamp(24px,4vw,56px); flex-wrap: wrap;
+      padding: 20px 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+    }
+    .cs-meta-item { display: flex; flex-direction: column; gap: 4px; }
+    .cs-meta-label { font-family: var(--mono); font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; }
+    .cs-meta-val { font-family: var(--sf); font-size: 14px; font-weight: 600; color: var(--text); }
+
+    /* hero metrics */
+    .cs-hero-right {
+      display: grid; grid-template-columns: repeat(3,1fr);
+      border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+      padding: 24px 0; margin-bottom: clamp(32px,4vw,56px);
+    }
+    .flow-metric { display: flex; flex-direction: column; gap: 2px; padding: 0 24px; border-right: 1px solid var(--border); }
+    .flow-metric:first-child { padding-left: 0; }
+    .flow-metric:last-child  { border-right: none; padding-right: 0; }
+    .flow-metric-val { font-size: clamp(28px,4vw,46px); font-weight: 700; letter-spacing: -1px; line-height: 1; }
+    .flow-metric-lbl { font-family: var(--mono); font-size: 12px; color: var(--muted); margin-top: 4px; }
+    .flow-metric-delta { font-family: var(--mono); font-size: 12px; color: #4A9A6A; }
+
+    /* cover image */
+    .cs-cover-wrap { background: #E3DED6; border-radius: 14px; padding: clamp(16px,2vw,28px); width: 100%; margin-bottom: clamp(40px,5vw,72px); }
+    .cs-cover-screenshot { width: 100%; border-radius: 10px; display: block; box-shadow: 0 2px 24px rgba(0,0,0,0.12); }
+    .cs-cover-placeholder {
+      width: 100%; border-radius: 10px; background: #1A1A2E;
+      display: flex; align-items: center; justify-content: center;
+      min-height: 340px; box-shadow: 0 2px 24px rgba(0,0,0,0.12); overflow: hidden; position: relative;
+    }
+
+    /* sections */
+    .cs-section { padding: 56px 0; border-top: 1px solid var(--border); }
+    .cs-section-label {
+      font-family: var(--mono); font-size: 11px; color: var(--muted);
+      text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 20px;
+      position: sticky; top: 0; background: var(--bg); padding: 12px 0; z-index: 10;
+    }
+    .cs-section-body { min-width: 0; }
+    .cs-section-body h2 {
+      font-family: var(--sf); font-size: clamp(22px,3vw,34px); font-weight: 700;
+      letter-spacing: -0.5px; line-height: 1.2; margin-bottom: 16px; color: var(--text);
+    }
+    .cs-section-body p {
+      font-family: var(--sf); font-size: 16px; color: var(--muted);
+      line-height: 1.75; margin-bottom: 16px; max-width: 680px;
+    }
+    .cs-section-body p:last-child { margin-bottom: 0; }
+    .cs-section-body strong { color: var(--text); font-weight: 600; }
+
+    /* two-col prose */
+    .cs-2col { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(24px,4vw,56px); align-items: start; }
+    @media (max-width: 720px) { .cs-2col { grid-template-columns: 1fr; } }
+
+    /* ── Carlota-style numbered blockers ── */
+    .cs-blockers { margin-top: 40px; }
+    .cs-blocker {
+      display: grid;
+      grid-template-columns: 56px 1fr;
+      gap: 0;
+      border-top: 1px solid var(--border);
+      padding: 32px 0;
+    }
+    .cs-blocker:last-child { border-bottom: 1px solid var(--border); }
+    .cs-blocker-num {
+      font-family: var(--mono); font-size: 11px; color: var(--muted);
+      padding-top: 3px;
+    }
+    .cs-blocker-content h3 {
+      font-family: var(--sf); font-size: clamp(18px,2.5vw,26px);
+      font-weight: 700; letter-spacing: -0.4px; color: var(--text);
+      line-height: 1.2; margin-bottom: 12px;
+    }
+    .cs-blocker-content p {
+      font-family: var(--sf); font-size: 15px; color: var(--muted);
+      line-height: 1.7; max-width: 600px; margin: 0;
+    }
+    .cs-blocker-img {
+      margin-top: 24px;
+      background: #E3DED6; border-radius: 10px;
+      padding: clamp(12px,1.5vw,20px);
+    }
+
+    /* ── Goal ── */
+    .cs-goal {
+      padding: clamp(48px,7vw,96px) 0;
+      border-top: 1px solid var(--border);
+      text-align: center;
+    }
+    .cs-goal-label {
+      font-family: var(--mono); font-size: 11px; color: var(--muted);
+      text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 24px;
+    }
+    .cs-goal h2 {
+      font-family: var(--sf); font-size: clamp(24px,4vw,48px);
+      font-weight: 700; letter-spacing: -1.5px; line-height: 1.1;
+      color: var(--text); max-width: 800px; margin: 0 auto 20px;
+    }
+    .cs-goal h2 em { font-style: normal; color: var(--orange); }
+    .cs-goal p {
+      font-family: var(--sf); font-size: 16px; color: var(--muted);
+      line-height: 1.75; max-width: 560px; margin: 0 auto;
+    }
+
+    /* ── Research findings ── */
+    .cs-findings { margin-top: 36px; }
+    .cs-finding {
+      display: grid; grid-template-columns: 56px 1fr;
+      border-top: 1px solid var(--border); padding: 28px 0;
+    }
+    .cs-finding:last-child { border-bottom: 1px solid var(--border); }
+    .cs-finding-num { font-family: var(--mono); font-size: 11px; color: var(--muted); padding-top: 3px; }
+    .cs-finding-body { }
+    .cs-finding-body strong {
+      display: block; font-size: clamp(15px,2vw,19px); font-weight: 700;
+      color: var(--text); margin-bottom: 8px; line-height: 1.3;
+    }
+    .cs-finding-body p {
+      font-family: var(--sf); font-size: 15px; color: var(--muted);
+      line-height: 1.7; max-width: 600px; margin: 0;
+    }
+
+    /* ── Design process steps ── */
+    .cs-process { margin-top: 36px; }
+    .cs-process-step {
+      display: grid; grid-template-columns: 56px 1fr;
+      border-top: 1px solid var(--border); padding: 36px 0;
+    }
+    .cs-process-step:last-child { border-bottom: 1px solid var(--border); }
+    .cs-process-num { font-family: var(--mono); font-size: 11px; color: var(--muted); padding-top: 4px; }
+    .cs-process-content h3 {
+      font-family: var(--sf); font-size: clamp(16px,2vw,22px); font-weight: 700;
+      color: var(--text); margin-bottom: 10px; letter-spacing: -0.3px;
+    }
+    .cs-process-content p {
+      font-family: var(--sf); font-size: 15px; color: var(--muted);
+      line-height: 1.7; max-width: 620px; margin-bottom: 20px;
+    }
+    .cs-process-content p:last-child { margin-bottom: 0; }
+    .cs-process-img {
+      background: #E3DED6; border-radius: 10px;
+      padding: clamp(12px,1.5vw,20px); margin-top: 20px;
+    }
+
+    /* problem cards — kept for fallback */
+    .cs-problems { display: grid; grid-template-columns: repeat(2,1fr); gap: 12px; margin-top: 28px; }
+    @media (max-width: 640px) { .cs-problems { grid-template-columns: 1fr; } }
+    .cs-prob-card { background: white; border-radius: 10px; padding: 20px 22px; border: 1px solid var(--border); }
+    .cs-prob-icon { font-size: 20px; margin-bottom: 10px; }
+    .cs-prob-title { font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 6px; }
+    .cs-prob-body { font-family: var(--mono); font-size: 11px; color: var(--muted); line-height: 1.6; }
+
+    /* token tier diagram */
+    .token-tiers { display: flex; flex-direction: column; gap: 8px; margin: 28px 0; }
+    .token-tier {
+      background: white; border-radius: 8px; padding: 14px 18px;
+      border-left: 3px solid var(--border); display: flex; align-items: center; gap: 14px;
+    }
+    .token-tier-num { font-family: var(--mono); font-size: 10px; color: var(--muted); width: 18px; flex-shrink: 0; }
+    .token-tier-name { font-size: 13px; font-weight: 700; color: var(--text); min-width: 140px; }
+    .token-tier-eg { font-family: var(--mono); font-size: 11px; color: var(--muted); }
+
+    /* before/after comparison */
+    .cs-ba { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 28px; }
+    @media (max-width: 640px) { .cs-ba { grid-template-columns: 1fr; } }
+    .cs-ba-card { background: white; border-radius: 10px; overflow: hidden; border: 1px solid var(--border); }
+    .cs-ba-label {
+      font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: 0.08em;
+      text-transform: uppercase; padding: 8px 16px;
+    }
+    .cs-ba-label.before { background: #fdf0ee; color: #c0392b; border-bottom: 1px solid #f5d0ca; }
+    .cs-ba-label.after  { background: #edfaf2; color: #1e8449; border-bottom: 1px solid #bde8ce; }
+    .cs-ba-body { padding: 16px; }
+    .cs-img-placeholder {
+      background: #E3DED6; border-radius: 8px; width: 100%;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: 8px; color: #A09890; font-family: var(--mono); font-size: 11px; padding: 32px 16px;
+      box-shadow: 0 2px 16px rgba(0,0,0,0.08);
+    }
+    .cs-img-placeholder svg { opacity: 0.4; }
+
+    /* quote */
+    .cs-quote {
+      border-left: 2px solid var(--text); padding: 12px 0 12px 20px;
+      margin: 28px 0;
+    }
+    .cs-quote p {
+      font-size: 18px; font-weight: 600; color: var(--text);
+      line-height: 1.5; max-width: 600px; margin: 0;
+    }
+
+    /* impact numbers */
+    .cs-impact-grid {
+      display: grid; grid-template-columns: repeat(3,1fr); gap: 0;
+      border: 1px solid var(--border); border-radius: 12px; overflow: hidden; margin-top: 28px;
+    }
+    .cs-impact-item {
+      padding: 28px 24px; border-right: 1px solid var(--border);
+      background: white;
+    }
+    .cs-impact-item:last-child { border-right: none; }
+    .cs-impact-val { font-size: clamp(36px,5vw,56px); font-weight: 800; color: var(--text); letter-spacing: -2px; line-height: 1; font-family: 'Inter', var(--sf); }
+    .cs-impact-lbl { font-family: var(--mono); font-size: 11px; color: var(--muted); margin-top: 8px; line-height: 1.5; }
+    @media (max-width: 640px) { .cs-impact-grid { grid-template-columns: 1fr; } .cs-impact-item { border-right: none; border-bottom: 1px solid var(--border); } .cs-impact-item:last-child { border-bottom: none; } }
+
+    /* list */
+    .cs-list { list-style: none; margin: 16px 0; display: flex; flex-direction: column; gap: 8px; }
+    .cs-list li {
+      font-family: var(--sf); font-size: 15px; color: var(--muted); line-height: 1.6;
+      padding-left: 18px; position: relative;
+    }
+    .cs-list li::before { content: '—'; position: absolute; left: 0; color: var(--border); }
+
+    /* color scale strip */
+    .color-scale { display: flex; gap: 3px; border-radius: 8px; overflow: hidden; margin: 20px 0; height: 36px; }
+    .color-scale div { flex: 1; }
+
+    /* next project */
+    .cs-next {
+      padding: clamp(48px,6vw,80px) 0 clamp(48px,6vw,80px);
+      border-top: 1px solid var(--border);
+    }
+    .cs-next-label { font-family: var(--mono); font-size: 11px; color: var(--muted); margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.08em; }
+    .cs-next a { text-decoration: none; color: inherit; display: flex; align-items: baseline; gap: 12px; }
+    .cs-next-title { font-size: clamp(28px,4vw,48px); font-weight: 700; letter-spacing: -1px; }
+    .cs-next a:hover .cs-next-title { color: var(--orange); }
+    .cs-next-arrow { font-size: 32px; color: var(--muted); }
+  </style>
+</head>
+<body>
+
+<div class="cs-page">
+
+  <a class="cs-back" href="index.html">← All work</a>
+
+  <!-- ── HERO ── -->
+  <div class="cs-hero">
+    <div class="cs-hero-inner">
+      <h1>One system.<br>Every brand.<br><em>Zero drift.</em></h1>
+      <p style="font-family:var(--sf);font-size:clamp(16px,1.8vw,20px);color:var(--muted);line-height:1.6;max-width:560px;margin-top:-16px;">The design foundation six Dow Jones brands build on.</p>
+      <div class="cs-hero-meta">
+        <div class="cs-meta-item"><span class="cs-meta-label">Project</span><span class="cs-meta-val">Screentone Design System 2.0</span></div>
+        <div class="cs-meta-item"><span class="cs-meta-label">Company</span><span class="cs-meta-val">Dow Jones</span></div>
+        <div class="cs-meta-item"><span class="cs-meta-label">Role</span><span class="cs-meta-val">Product Designer</span></div>
+        <div class="cs-meta-item"><span class="cs-meta-label">Scope</span><span class="cs-meta-val">Tokens · Variables · Components</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- hero metrics -->
+  <div class="cs-hero-right">
+    <div class="flow-metric">
+      <div class="flow-metric-val">100%</div>
+      <div class="flow-metric-lbl">components responsive</div>
+      <div class="flow-metric-delta">↑ from 0% auto-layout</div>
+    </div>
+    <div class="flow-metric">
+      <div class="flow-metric-val">0</div>
+      <div class="flow-metric-lbl">CSS overrides post-launch</div>
+      <div class="flow-metric-delta">↓ from constant drift</div>
+    </div>
+    <div class="flow-metric">
+      <div class="flow-metric-val">4-tier</div>
+      <div class="flow-metric-lbl">token architecture</div>
+      <div class="flow-metric-delta">↑ from zero structure</div>
+    </div>
+  </div>
+
+  <!-- cover image -->
+  <div class="cs-cover-wrap">
+    <div class="cs-cover-placeholder" style="min-height:420px;">
+      <!-- token grid hero visual -->
+      <div style="position:absolute;inset:0;display:grid;grid-template-columns:repeat(8,1fr);grid-template-rows:repeat(6,1fr);gap:4px;padding:24px;opacity:0.7;">
+        <div style="background:#0057FF;border-radius:4px;"></div><div style="background:#3B7FFF;border-radius:4px;"></div><div style="background:#82ADFF;border-radius:4px;"></div><div style="background:#C4D8FF;border-radius:4px;"></div><div style="background:#00C48C;border-radius:4px;"></div><div style="background:#33D6A6;border-radius:4px;"></div><div style="background:#7EEACC;border-radius:4px;"></div><div style="background:#C2F5E9;border-radius:4px;"></div>
+        <div style="background:#FF4D4D;border-radius:4px;"></div><div style="background:#FF7A7A;border-radius:4px;"></div><div style="background:#FFB3B3;border-radius:4px;"></div><div style="background:#FFE0E0;border-radius:4px;"></div><div style="background:#FFB300;border-radius:4px;"></div><div style="background:#FFC933;border-radius:4px;"></div><div style="background:#FFE082;border-radius:4px;"></div><div style="background:#FFF3C4;border-radius:4px;opacity:0.5;"></div>
+        <div style="background:#7C3AED;border-radius:4px;"></div><div style="background:#9D65F5;border-radius:4px;"></div><div style="background:#C4A0FA;border-radius:4px;"></div><div style="background:#E9D8FD;border-radius:4px;opacity:0.5;"></div><div style="background:#1A1A2E;border-radius:4px;"></div><div style="background:#2E2E4A;border-radius:4px;"></div><div style="background:#4A4A6A;border-radius:4px;"></div><div style="background:#6B6B8A;border-radius:4px;"></div>
+        <div style="background:#8A8AA8;border-radius:4px;"></div><div style="background:#ABABC2;border-radius:4px;"></div><div style="background:#CDCDD8;border-radius:4px;"></div><div style="background:#EEEEF2;border-radius:4px;opacity:0.3;"></div><div style="background:#0057FF;border-radius:4px;opacity:0.3;"></div><div style="background:#3B7FFF;border-radius:4px;opacity:0.2;"></div><div style="background:#82ADFF;border-radius:4px;opacity:0.15;"></div><div style="background:#C4D8FF;border-radius:4px;opacity:0.1;"></div>
+        <div style="background:#00C48C;border-radius:4px;opacity:0.3;"></div><div style="background:#33D6A6;border-radius:4px;opacity:0.2;"></div><div style="background:#7EEACC;border-radius:4px;opacity:0.15;"></div><div style="background:#C2F5E9;border-radius:4px;opacity:0.1;"></div><div style="background:#FF4D4D;border-radius:4px;opacity:0.3;"></div><div style="background:#FF7A7A;border-radius:4px;opacity:0.2;"></div><div style="background:#FFB3B3;border-radius:4px;opacity:0.15;"></div><div style="background:#FFE0E0;border-radius:4px;opacity:0.1;"></div>
+        <div style="background:#7C3AED;border-radius:4px;opacity:0.3;"></div><div style="background:#9D65F5;border-radius:4px;opacity:0.2;"></div><div style="background:#C4A0FA;border-radius:4px;opacity:0.15;"></div><div style="background:#E9D8FD;border-radius:4px;opacity:0.1;"></div><div style="background:#FFB300;border-radius:4px;opacity:0.3;"></div><div style="background:#FFC933;border-radius:4px;opacity:0.2;"></div><div style="background:#FFE082;border-radius:4px;opacity:0.15;"></div><div style="background:#1A1A2E;border-radius:4px;opacity:0.4;"></div>
+      </div>
+      <!-- label overlay -->
+      <div style="position:relative;z-index:2;text-align:center;padding:32px;">
+        <div style="font-family:'Fragment Mono','SF Mono',monospace;font-size:10px;color:rgba(255,255,255,0.45);letter-spacing:0.12em;text-transform:uppercase;margin-bottom:10px;">Add cover image here</div>
+        <div style="font-family:'Fragment Mono','SF Mono',monospace;font-size:12px;color:rgba(255,255,255,0.25);">screentone-cover.png</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── CONTEXT ── -->
+  <div class="cs-section">
+    <div class="cs-section-label">The problem &amp; my role</div>
+    <div class="cs-section-body">
+      <h2>A "design system" that was just a sticker sheet.</h2>
+      <p>When I joined, Screentone wasn't a system — it was a static file. Colors had creative but unscalable names like <strong>"Lava"</strong> and <strong>"Blurple."</strong> Components had no Auto-layout. Developers manually inspected hex codes and guessed padding values.</p>
+      <p>My mission: rebuild it from the ground up as a fluid, token-driven ecosystem aligned with Dow Jones's broader <strong>Index</strong> family — unlocking AI integration, zero-drift developer handoff, and effortless cross-brand scaling.</p>
+    </div>
+  </div>
+
+  <!-- ── PROBLEMS: 4 blockers ── -->
+  <div class="cs-section">
+    <div class="cs-section-label">Problems</div>
+    <div class="cs-section-body">
+      <h2>Four blockers preventing a scalable design ecosystem.</h2>
+
+      <div class="cs-blockers">
+
+        <div class="cs-blocker">
+          <div class="cs-blocker-num">01</div>
+          <div class="cs-blocker-content">
+            <h3>No shared language between design and code.</h3>
+            <p>Without variables or tokens, developers had to visually inspect Figma files and manually extract hex codes and padding values. Every handoff created drift — the design and production UI were always slightly different, and CSS overrides multiplied with every sprint.</p>
+            <div class="cs-blocker-img">
+              <div class="cs-img-placeholder" style="min-height:180px;">
+                <svg width="28" height="28" fill="none" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2" stroke="currentColor" stroke-width="1.5"/><line x1="3" y1="9" x2="21" y2="9" stroke="currentColor" stroke-width="1.5"/><line x1="9" y1="9" x2="9" y2="21" stroke="currentColor" stroke-width="1.5"/></svg>
+                Add image: old Figma inspect panel / CSS drift example
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="cs-blocker">
+          <div class="cs-blocker-num">02</div>
+          <div class="cs-blocker-content">
+            <h3>Components that broke the moment you touched them.</h3>
+            <p>With no Auto-layout, every size variant required detaching the component and manually regrouping elements. Designers spent hours on work that should have taken seconds — and each detach created a snowflake component that drifted from the library permanently.</p>
+            <div class="cs-blocker-img">
+              <div class="cs-img-placeholder" style="min-height:180px;">
+                <svg width="28" height="28" fill="none" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2" stroke="currentColor" stroke-width="1.5"/><line x1="3" y1="9" x2="21" y2="9" stroke="currentColor" stroke-width="1.5"/><line x1="9" y1="9" x2="9" y2="21" stroke="currentColor" stroke-width="1.5"/></svg>
+                Add image: old detached component / manual group structure
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="cs-blocker">
+          <div class="cs-blocker-num">03</div>
+          <div class="cs-blocker-content">
+            <h3>Color names that sounded good but scaled terribly.</h3>
+            <p>"Lava", "Blurple", "Emerald" — evocative, creative, impossible to maintain. No programmatic relationship between values. When WCAG contrast requirements changed, there was no systematic way to audit or fix them. Every color decision was manual archaeology.</p>
+          </div>
+        </div>
+
+        <div class="cs-blocker">
+          <div class="cs-blocker-num">04</div>
+          <div class="cs-blocker-content">
+            <h3>Screentone spoke a completely different language from Index.</h3>
+            <p>Dow Jones's master ecosystem houses WSJ, MarketWatch, and other brands under a shared foundation called Index. Screentone was siloed — different naming conventions, different scale, different mental model. Cross-brand work required constant translation and produced inconsistent results.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ── GOAL ── -->
+  <div class="cs-goal">
+    <div class="cs-goal-label">Goal</div>
+    <h2>One north star: make the system <em>disappear.</em></h2>
+    <p>A design system should be invisible infrastructure. Designers should never think about it — they just build. Developers should never guess — they just ship. The goal was to architect a system so coherent that the work it enables becomes effortless.</p>
+  </div>
+
+  <!-- ── RESEARCH ── -->
+  <div class="cs-section">
+    <div class="cs-section-label">Research</div>
+    <div class="cs-section-body">
+      <h2>Three key findings from auditing the system and talking to the team.</h2>
+      <p>Before proposing anything, I spent two weeks doing a deep audit — reviewing every component, every token (or lack of one), and running structured interviews with designers and engineers who used the system daily.</p>
+
+      <div class="cs-findings">
+
+        <div class="cs-finding">
+          <div class="cs-finding-num">01</div>
+          <div class="cs-finding-body">
+            <strong>"I just detach it — it's faster."</strong>
+            <p>Every designer interviewed had developed a workaround for the same problem: components were too rigid to adapt without breaking. Detaching had become the default behaviour, not the last resort. The library was being abandoned in real time.</p>
+          </div>
+        </div>
+
+        <div class="cs-finding">
+          <div class="cs-finding-num">02</div>
+          <div class="cs-finding-body">
+            <strong>The dev handoff was a guessing game — not a spec.</strong>
+            <p>Engineers described the Figma files as "a reference, not a source of truth." They'd build from the design, then adjust based on what felt right in the browser. Without semantic tokens, there was no contractual relationship between the design file and the codebase.</p>
+          </div>
+        </div>
+
+        <div class="cs-finding">
+          <div class="cs-finding-num">03</div>
+          <div class="cs-finding-body">
+            <strong>The 05–90 color scale was creating silent WCAG failures.</strong>
+            <p>The irregular step scale meant contrast ratios between foreground and background colors weren't predictable. Developers were combining shades they believed would pass AA — and many didn't. A standardised 0–100 scale with predictable steps was the only way to make contrast auditable by design.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ── DESIGN PROCESS ── -->
+  <div class="cs-section">
+    <div class="cs-section-label">Design process</div>
+    <div class="cs-section-body">
+      <h2>Five iterations to get from sticker sheet to living system.</h2>
+
+      <div class="cs-process">
+
+        <div class="cs-process-step">
+          <div class="cs-process-num">01</div>
+          <div class="cs-process-content">
+            <h3>Token audit — mapping what existed to what should exist</h3>
+            <p>I catalogued every color, spacing value, and radius used across the product. Then mapped them against the Index token structure to identify gaps, redundancies, and the rename strategy needed to align with the broader DJ ecosystem.</p>
+            <div class="cs-process-img">
+              <div class="cs-img-placeholder" style="min-height:200px;">
+                <svg width="28" height="28" fill="none" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2" stroke="currentColor" stroke-width="1.5"/><line x1="3" y1="9" x2="21" y2="9" stroke="currentColor" stroke-width="1.5"/><line x1="9" y1="9" x2="9" y2="21" stroke="currentColor" stroke-width="1.5"/></svg>
+                Add image: token audit spreadsheet / mapping doc
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="cs-process-step">
+          <div class="cs-process-num">02</div>
+          <div class="cs-process-content">
+            <h3>4-tier token architecture — from raw hex to component contract</h3>
+            <p>I designed a strict four-tier hierarchy: Raw Values → Design Tokens → Semantic Tokens → Component Tokens. Each tier has a single responsibility. Designers work with semantic tokens. Developers consume component tokens. The layers below are implementation details.</p>
+            <div class="token-tiers" style="margin-top:0;">
+              <div class="token-tier" style="border-left-color:#0057FF;"><div class="token-tier-num">01</div><div class="token-tier-name">Raw Values</div><div class="token-tier-eg">Hex codes and fixed px — <code style="background:#F0EEF8;padding:1px 5px;border-radius:3px;font-size:10px;">#0057FF</code>, <code style="background:#F0EEF8;padding:1px 5px;border-radius:3px;font-size:10px;">16px</code></div></div>
+              <div class="token-tier" style="border-left-color:#7C3AED;"><div class="token-tier-num">02</div><div class="token-tier-name">Design Tokens</div><div class="token-tier-eg">Universal language — <code style="background:#F0EEF8;padding:1px 5px;border-radius:3px;font-size:10px;">blue-60</code>, <code style="background:#F0EEF8;padding:1px 5px;border-radius:3px;font-size:10px;">space-400</code></div></div>
+              <div class="token-tier" style="border-left-color:#00C48C;"><div class="token-tier-num">03</div><div class="token-tier-name">Semantic Tokens</div><div class="token-tier-eg">Purpose-driven — <code style="background:#F0EEF8;padding:1px 5px;border-radius:3px;font-size:10px;">color-error-text</code>, <code style="background:#F0EEF8;padding:1px 5px;border-radius:3px;font-size:10px;">color-primary-action</code></div></div>
+              <div class="token-tier" style="border-left-color:#FFB300;"><div class="token-tier-num">04</div><div class="token-tier-name">Component Tokens</div><div class="token-tier-eg">Locked to UI — <code style="background:#F0EEF8;padding:1px 5px;border-radius:3px;font-size:10px;">button-bg-primary</code>, <code style="background:#F0EEF8;padding:1px 5px;border-radius:3px;font-size:10px;">input-border-focus</code></div></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="cs-process-step">
+          <div class="cs-process-num">03</div>
+          <div class="cs-process-content">
+            <h3>0–100 color scale — accessibility baked in by default</h3>
+            <p>Replaced the irregular 05–90 scale with a standardised 0–100 scale across all palettes. Even steps (20, 40, 60, 80) are light-on-dark safe; odd midpoints (30, 50, 70) are for decorative use only. WCAG AA contrast is now a structural guarantee, not a manual check.</p>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:20px;">
+              <div>
+                <div style="font-family:var(--mono);font-size:9px;color:#C0392B;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:8px;">Before — irregular scale</div>
+                <div class="color-scale"><div style="background:#E8E8F5;"></div><div style="background:#C0B8E8;"></div><div style="background:#9B6BCC;"></div><div style="background:#7C3AED;"></div><div style="background:#5B1FA8;"></div><div style="background:#3A0880;"></div></div>
+                <div style="font-family:var(--mono);font-size:9px;color:var(--muted);margin-top:4px;">05 — 10 — 30 — 50 — 70 — 90</div>
+              </div>
+              <div>
+                <div style="font-family:var(--mono);font-size:9px;color:#1A7A45;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:8px;">After — 0–100 standardised</div>
+                <div class="color-scale"><div style="background:#EDE8FF;"></div><div style="background:#C4A0FA;"></div><div style="background:#9D65F5;"></div><div style="background:#7C3AED;"></div><div style="background:#5B20C8;"></div><div style="background:#3A0C8A;"></div></div>
+                <div style="font-family:var(--mono);font-size:9px;color:var(--muted);margin-top:4px;">0 — 20 — 40 — 60 — 80 — 100</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="cs-process-step">
+          <div class="cs-process-num">04</div>
+          <div class="cs-process-content">
+            <h3>Auto-layout rebuild — every component fluid by default</h3>
+            <p>Rebuilt every component from scratch with strict Auto-layout and Figma variables wired to the token hierarchy. Properties replaced manual configuration. Designers can now drag, drop, and toggle — no detaching, no snowflakes, no drift.</p>
+            <div class="cs-ba" style="margin-top:20px;">
+              <div class="cs-ba-card">
+                <div class="cs-ba-label before">Before — static, detached</div>
+                <div class="cs-ba-body">
+                  <div style="background:#E3DED6;border-radius:8px;padding:16px;margin-bottom:10px;">
+                    <div class="cs-img-placeholder" style="min-height:140px; font-size:10px;">
+                      <svg width="24" height="24" fill="none" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2" stroke="currentColor" stroke-width="1.5"/><line x1="3" y1="9" x2="21" y2="9" stroke="currentColor" stroke-width="1.5"/><line x1="9" y1="9" x2="9" y2="21" stroke="currentColor" stroke-width="1.5"/></svg>
+                      Add: old component / sticker sheet
+                    </div>
+                  </div>
+                  <div style="font-family:var(--mono);font-size:10px;color:#C0392B;line-height:1.7;">— No Auto-layout<br>— "Blurple" / "Lava" names<br>— Detach to resize<br>— Zero token mapping</div>
+                </div>
+              </div>
+              <div class="cs-ba-card">
+                <div class="cs-ba-label after">After — variable-driven, fluid</div>
+                <div class="cs-ba-body">
+                  <div style="background:#E3DED6;border-radius:8px;padding:16px;margin-bottom:10px;">
+                    <div class="cs-img-placeholder" style="min-height:140px; font-size:10px;">
+                      <svg width="24" height="24" fill="none" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2" stroke="currentColor" stroke-width="1.5"/><line x1="3" y1="9" x2="21" y2="9" stroke="currentColor" stroke-width="1.5"/><line x1="9" y1="9" x2="9" y2="21" stroke="currentColor" stroke-width="1.5"/></svg>
+                      Add: new component / Dev Mode view
+                    </div>
+                  </div>
+                  <div style="font-family:var(--mono);font-size:10px;color:#1E8449;line-height:1.7;">— Full Auto-layout<br>— Semantic token names<br>— Toggle, never detach<br>— Dev Mode hands exact tokens</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="cs-process-step">
+          <div class="cs-process-num">05</div>
+          <div class="cs-process-content">
+            <h3>AI-ready output — the token structure as a data contract</h3>
+            <p>Because the system is built on a clean, predictable JSON token structure, it's now machine-readable. Claude can read our Figma specs. We can prompt AI to generate production-ready component code directly from token names — not from visual inspection.</p>
+            <div class="cs-quote" style="margin-top:0;">
+              <p>"A well-structured token system is a well-structured data contract that any tool can consume."</p>
+            </div>
+            <div class="cs-process-img">
+              <div class="cs-img-placeholder" style="min-height:180px;">
+                <svg width="28" height="28" fill="none" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2" stroke="currentColor" stroke-width="1.5"/><line x1="3" y1="9" x2="21" y2="9" stroke="currentColor" stroke-width="1.5"/><line x1="9" y1="9" x2="9" y2="21" stroke="currentColor" stroke-width="1.5"/></svg>
+                Add image: JSON token export / AI prompt → code output
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ── IMPACT ── -->
+  <div class="cs-section">
+    <div class="cs-section-label">Impact</div>
+    <div class="cs-section-body">
+      <h2>What it unlocked.</h2>
+      <p>The rebuild changed the daily reality for designers, developers, and the product org — and future-proofed the system for whatever Dow Jones launches next.</p>
+
+      <div class="cs-impact-grid">
+        <div class="cs-impact-item">
+          <div class="cs-impact-val">100%</div>
+          <div class="cs-impact-lbl">Components rebuilt with Auto-layout<br>↑ from 0% responsive</div>
+        </div>
+        <div class="cs-impact-item">
+          <div class="cs-impact-val">0</div>
+          <div class="cs-impact-lbl">CSS overrides needed post-launch<br>Code maps exactly to Figma tokens</div>
+        </div>
+        <div class="cs-impact-item">
+          <div class="cs-impact-val">∞</div>
+          <div class="cs-impact-lbl">Sub-brands supportable<br>Swap variables → entire UI updates</div>
+        </div>
+      </div>
+
+      <ul class="cs-list" style="margin-top:28px;">
+        <li>Designers drag, drop, and toggle — components never need detaching</li>
+        <li>Dev Mode hands exact semantic tokens, cutting build time drastically</li>
+        <li>WCAG AA contrast resolved across the board by standardising the color scale</li>
+        <li>System aligned with Dow Jones Index family — WSJ and MarketWatch speak the same language</li>
+      </ul>
+
+    </div>
+  </div>
+
+  <!-- next -->
+  <div class="cs-next">
+    <p class="cs-next-label">Next project</p>
+    <a href="nbd.html">
+      <span class="cs-next-title">Emirates NBD Banking</span>
+      <span class="cs-next-arrow">↗</span>
+    </a>
+  </div>
+
+</div>
+
+<footer>
+  <span class="footer-name">Kamila Kijenia</span>
+  <nav class="footer-nav">
+    <a href="index.html">Work</a>
+    <a href="index.html#about">About</a>
+    <a href="https://linkedin.com/in/kamilakijenia" target="_blank">LinkedIn</a>
+    <a href="mailto:hello@kamilakijenia.com">Email</a>
+  </nav>
+  <span class="footer-copy">© 2026</span>
+</footer>
+
+</body>
+</html>

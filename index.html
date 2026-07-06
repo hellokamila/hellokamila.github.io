@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kamila Kijenia — Product Designer</title>
+  <meta name="description" content="Senior Product Designer & UX Architect. Currently at Dow Jones." />
+  <link href="https://fonts.googleapis.com/css2?family=Fragment+Mono&display=swap" rel="stylesheet" />
+  <style>
+    @font-face {
+      font-family: 'SF Pro Display';
+      src: local('SF Pro Display'), local('SFProDisplay-Regular'), local('.SFNSDisplay');
+      font-weight: 400;
+    }
+    @font-face {
+      font-family: 'SF Pro Display';
+      src: local('SF Pro Display Bold'), local('SFProDisplay-Bold'), local('.SFNSDisplay-Bold');
+      font-weight: 700;
+    }
+
+    :root {
+      --bg:     #EDEAE3;
+      --text:   #111111;
+      --orange: #F04E0C;
+      --muted:  #555555;
+      --border: #D8D4CC;
+      --white:  #FFFFFF;
+      --sf:     'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
+      --mono:   'Fragment Mono', 'SF Mono', monospace;
+      --pad:    clamp(24px, 6vw, 100px);
+      --max-w:  1300px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--sf);
+      background: var(--bg);
+      color: var(--text);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ─── HERO ─── */
+    .hero {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: clamp(60px, 9vw, 120px) var(--pad) clamp(60px, 8vw, 100px);
+    }
+    .hero h1 {
+      font-family: var(--sf);
+      font-size: clamp(32px, 4.8vw, 62px);
+      font-weight: 700;
+      line-height: 1.08;
+      letter-spacing: -1.5px;
+      color: var(--text);
+      margin-bottom: 36px;
+    }
+    .hero h1 .name { color: var(--orange); }
+    .hero p {
+      font-family: var(--mono);
+      font-size: clamp(13px, 1.1vw, 15px);
+      color: var(--muted);
+      line-height: 1.75;
+      max-width: 620px;
+    }
+    .hero p a {
+      color: var(--muted);
+      text-decoration: underline;
+      text-underline-offset: 3px;
+      transition: color .2s;
+    }
+    .hero p a:hover { color: var(--text); }
+
+    /* ─── PORTRAIT CARDS ROW ─── */
+    .cards-row {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: 0 var(--pad) clamp(80px, 10vw, 140px);
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+      align-items: start;
+    }
+
+    .pcard { display: block; text-decoration: none; color: inherit; }
+    .pcard:not(.soon):hover .pcard-img { transform: translateY(-4px); box-shadow: 0 20px 60px rgba(0,0,0,.18); }
+
+    .pcard-img {
+      border-radius: 14px;
+      overflow: hidden;
+      aspect-ratio: 293 / 527;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 18px;
+      transition: transform .25s ease, box-shadow .25s ease;
+      position: relative;
+    }
+
+    /* Gradients — exact Carlota palette */
+    .g1 {
+      background: #65477F;
+      position: relative;
+      overflow: hidden;
+    }
+    /* Fold: shadow strip + lighter flap via nested div */
+    .g1-fold {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 1;
+    }
+    .g1-fold::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: #0D0520;
+      clip-path: polygon(100% 18%, 100% 100%, 0% 100%);
+    }
+    .g1-fold::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: #65477F;
+      clip-path: polygon(100% 22%, 100% 100%, 0% 100%);
+    }
+    .g2 { background: radial-gradient(ellipse at 70% 30%, #E8804A 0%, #C96BAE 40%, #9B6BCC 70%, #7B4AA0 100%); }
+    .g3 { background: linear-gradient(160deg, #7B5EA7 0%, #3B2467 40%, #0D0520 100%); }
+    .g4 { background: #0A0A0A; }
+
+    /* Noise texture overlay */
+    .pcard-img::before {
+      content: '';
+      position: absolute; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.06'/%3E%3C/svg%3E");
+      opacity: .35;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .pcard-shape {
+      position: relative; z-index: 5;
+      display: flex; align-items: center; justify-content: center;
+    }
+
+    /* ─── SHAPES ─── */
+    /* Circle outline */
+    .shape-circle {
+      width: 110px; height: 110px;
+      border-radius: 50%;
+      border: 2px solid rgba(255,255,255,.55);
+      display: flex; align-items: center; justify-content: center;
+    }
+
+    /* Triangle */
+    .shape-triangle {
+      width: 0; height: 0;
+      border-left: 52px solid transparent;
+      border-right: 52px solid transparent;
+      border-bottom: 90px solid rgba(255,255,255,.85);
+      filter: drop-shadow(0 2px 12px rgba(0,0,0,.2));
+    }
+
+    /* Half circle top */
+    .shape-halfcircle-top {
+      width: 108px; height: 54px;
+      background: rgba(255,255,255,.85);
+      border-radius: 108px 108px 0 0;
+      filter: drop-shadow(0 2px 12px rgba(0,0,0,.2));
+    }
+
+
+    /* ─── CARD TEXT BELOW ─── */
+    .pcard-label {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+    .pcard-title {
+      font-family: var(--sf);
+      font-size: clamp(16px, 1.6vw, 20px);
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.25;
+      letter-spacing: -0.3px;
+    }
+    .pcard.soon .pcard-title { color: var(--muted); }
+
+    /* ─── MORE WORK LIST ─── */
+    .more-work {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: 0 var(--pad) clamp(80px, 10vw, 140px);
+      border-top: 1px solid var(--border);
+    }
+    .more-label {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--muted);
+      padding: 28px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .work-item {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 24px;
+      padding: 22px 0;
+      border-bottom: 1px solid var(--border);
+      text-decoration: none;
+      color: inherit;
+      transition: padding-left .2s;
+    }
+    .work-item:hover { padding-left: 8px; }
+    .work-item-left { display: flex; align-items: baseline; gap: 20px; }
+    .work-num {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--muted);
+      min-width: 24px;
+    }
+    .work-name {
+      font-family: var(--sf);
+      font-size: clamp(16px, 1.8vw, 22px);
+      font-weight: 700;
+      letter-spacing: -0.3px;
+    }
+    .work-tags {
+      display: flex; gap: 6px; flex-shrink: 0;
+    }
+    .tag {
+      font-family: var(--mono);
+      font-size: 11px;
+      padding: 3px 10px;
+      border-radius: 100px;
+      background: transparent;
+      color: var(--muted);
+      border: 1px solid var(--border);
+    }
+
+    /* ─── ABOUT ─── */
+    .about {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: clamp(60px, 8vw, 120px) var(--pad);
+      border-top: 1px solid var(--border);
+    }
+    .about h2 {
+      font-family: var(--sf);
+      font-size: clamp(36px, 5vw, 68px);
+      font-weight: 700;
+      letter-spacing: -2px;
+      line-height: 1.05;
+      color: var(--text);
+      margin-bottom: 48px;
+      max-width: 820px;
+    }
+    .about h2 .accent { color: var(--orange); }
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 80px;
+      align-items: start;
+    }
+    .about-left p {
+      font-family: var(--sf);
+      font-size: 17px;
+      color: var(--muted);
+      line-height: 1.8;
+      margin-bottom: 20px;
+    }
+    .about-left p strong { color: var(--text); font-weight: 600; }
+    .about-left p a {
+      color: var(--text); font-weight: 600;
+      text-decoration: underline; text-underline-offset: 3px;
+    }
+    .skill-group { margin-bottom: 36px; }
+    .skill-group-label {
+      font-family: var(--mono);
+      font-size: 11px; color: var(--muted);
+      margin-bottom: 14px;
+    }
+    .skill-row {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 12px 0; border-bottom: 1px solid var(--border);
+      font-family: var(--sf); font-size: 15px;
+    }
+    .skill-row:first-of-type { border-top: 1px solid var(--border); }
+    .skill-name { color: var(--text); font-weight: 500; }
+    .skill-yrs  { font-family: var(--mono); font-size: 11px; color: var(--muted); }
+
+    /* ─── FOOTER (nav lives here now) ─── */
+    footer {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: 32px var(--pad);
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+    .footer-name {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--muted);
+    }
+    .footer-nav {
+      display: flex; gap: 6px; flex-wrap: wrap;
+    }
+    .footer-nav a {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--muted);
+      text-decoration: underline;
+      text-underline-offset: 3px;
+      text-decoration-color: transparent;
+      padding: 6px 14px;
+      border-radius: 100px;
+      transition: background .18s, color .18s, text-decoration-color .18s;
+    }
+    .footer-nav a:hover {
+      background: var(--border);
+      color: var(--text);
+      text-decoration-color: transparent;
+    }
+    .footer-copy {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 900px) {
+      .cards-row { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 560px) {
+      .cards-row { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+      .about-grid { grid-template-columns: 1fr; gap: 48px; }
+      footer { flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ─── HERO ─── -->
+<div class="hero">
+  <h1>
+    <span class="name">Kamila<sup style="font-size:.42em;vertical-align:super;letter-spacing:0">↗</sup></span> here,<br>
+    designing products<br>
+    that scale and matter.
+  </h1>
+  <p>
+    Currently design at <a href="https://www.dowjones.com" target="_blank" rel="noopener">Dow Jones</a>.
+    Previously at <a href="https://www.hp.com/us-en/home.html" target="_blank" rel="noopener">Hewlett Packard</a>, <a href="https://www.efigence.com/" target="_blank" rel="noopener">Efigence</a> and <a href="https://atos.net/es/espana" target="_blank" rel="noopener">Atos</a>.
+  </p>
+</div>
+
+<!-- ─── 4 PORTRAIT CARDS ─── -->
+<div class="cards-row">
+
+  <!-- Card 1: Emirates NBD -->
+  <a class="pcard" href="nbd.html">
+    <div class="pcard-img" style="padding:0;background:none;position:relative;">
+      <img src="assets/nbd-card.png" alt="Emirates NBD" style="width:100%;height:100%;object-fit:fill;border-radius:14px;display:block;"/>
+      <div style="position:absolute;inset:0;border-radius:14px;background:radial-gradient(ellipse 70% 55% at 85% 8%, rgba(255,255,255,0.22) 0%, rgba(255,255,255,0.06) 45%, transparent 70%);pointer-events:none;"></div>
+    </div>
+    <p class="pcard-label">Emirates NBD Banking</p>
+    <p class="pcard-title">24-minute workflows<br>now take 5.</p>
+  </a>
+
+  <!-- Card 2: Control Tower AI — Triangle -->
+  <a class="pcard" href="#">
+    <div class="pcard-img g2">
+      <div class="pcard-shape">
+        <div class="shape-triangle"></div>
+      </div>
+    </div>
+    <p class="pcard-label">Control Tower AI</p>
+    <p class="pcard-title">Out-of-stock conditions, managed by AI.</p>
+  </a>
+
+  <!-- Card 3: Unified Workflow — Half circle -->
+  <a class="pcard" href="#">
+    <div class="pcard-img g3">
+      <div class="pcard-shape">
+        <div class="shape-halfcircle-top"></div>
+      </div>
+    </div>
+    <p class="pcard-label">Unified Workflow</p>
+    <p class="pcard-title">One navigation system across five products.</p>
+  </a>
+
+  <!-- Card 4: Screentone DS -->
+  <a class="pcard" href="screentone.html">
+    <div class="pcard-img g4">
+      <div class="pcard-shape">
+        <svg width="100" height="96" viewBox="0 0 100 96" fill="none" xmlns="http://www.w3.org/2000/svg" style="filter:drop-shadow(0 2px 14px rgba(0,0,0,0.25))">
+          <path d="
+            M 47.0,84.6
+            L 15.1,15.9
+            Q 10,5  19.7,12.0
+            L 38.7,25.8
+            Q 50,34  61.3,25.8
+            L 80.3,12.0
+            Q 90,5  84.9,15.9
+            L 53.0,84.6
+            Q 50,91  47.0,84.6
+            Z"
+            fill="rgba(255,255,255,0.88)"
+          />
+        </svg>
+      </div>
+    </div>
+    <p class="pcard-label">Dow Jones · Design System</p>
+    <p class="pcard-title">Screentone 2.0 — from sticker sheet to living system.</p>
+  </a>
+
+</div>
+
+<!-- ─── MORE WORK ─── -->
+<div class="more-work">
+  <p class="more-label">More work</p>
+
+  <a class="work-item" href="#">
+    <div class="work-item-left">
+      <span class="work-num">04</span>
+      <span class="work-name">Snapshot Search</span>
+    </div>
+    <div class="work-tags"><span class="tag">Search UX</span><span class="tag">B2B</span></div>
+  </a>
+
+  <a class="work-item" href="#">
+    <div class="work-item-left">
+      <span class="work-num">05</span>
+      <span class="work-name">Advanced Lifecycle Planning</span>
+    </div>
+    <div class="work-tags"><span class="tag">Forecasting</span><span class="tag">Enterprise</span></div>
+  </a>
+
+  <a class="work-item" href="#">
+    <div class="work-item-left">
+      <span class="work-num">06</span>
+      <span class="work-name">Play 24 Mobile App</span>
+    </div>
+    <div class="work-tags"><span class="tag">Mobile</span><span class="tag">Telecom</span></div>
+  </a>
+
+  <a class="work-item" href="#">
+    <div class="work-item-left">
+      <span class="work-num">07</span>
+      <span class="work-name">Telecom E-commerce Flows</span>
+    </div>
+    <div class="work-tags"><span class="tag">E-commerce</span><span class="tag">Conversion</span></div>
+  </a>
+</div>
+
+<!-- ─── ABOUT ─── -->
+<div class="about" id="about">
+  <h2>I believe <span class="accent">good design</span><br>is good business sense.</h2>
+  <div class="about-grid">
+    <div class="about-left">
+      <p>
+        I'm a <strong>Senior Product Designer & UX Architect</strong> with 8+ years working across banking, telecoms, supply chain, and media. I specialise in the kind of products that are genuinely hard to use — and making them not hard to use.
+      </p>
+      <p>
+        Right now I'm at <a href="#">Dow Jones</a>, thinking about how global newsrooms work and where they break down. Before that I've designed AI copilots, e-commerce flows, design systems, and a lot of dashboards with too much data in them.
+      </p>
+      <p>
+        I'm at my best when the problem is ambiguous and the stakeholders have strong opinions. Soft skills aren't soft — they're half the job.
+      </p>
+    </div>
+    <div>
+      <div class="skill-group">
+        <p class="skill-group-label">Expertise</p>
+        <div class="skill-row"><span class="skill-name">Design Systems</span><span class="skill-yrs">8 yrs</span></div>
+        <div class="skill-row"><span class="skill-name">Product Strategy</span><span class="skill-yrs">6 yrs</span></div>
+        <div class="skill-row"><span class="skill-name">UX Architecture</span><span class="skill-yrs">8 yrs</span></div>
+        <div class="skill-row"><span class="skill-name">AI Copilot Design</span><span class="skill-yrs">3 yrs</span></div>
+        <div class="skill-row"><span class="skill-name">Data-driven Discovery</span><span class="skill-yrs">5 yrs</span></div>
+        <div class="skill-row"><span class="skill-name">Stakeholder Alignment</span><span class="skill-yrs">8 yrs</span></div>
+      </div>
+      <div class="skill-group">
+        <p class="skill-group-label">Tools</p>
+        <div class="skill-row"><span class="skill-name">Figma</span></div>
+        <div class="skill-row"><span class="skill-name">Framer</span></div>
+        <div class="skill-row"><span class="skill-name">Miro</span></div>
+        <div class="skill-row"><span class="skill-name">Jira / Confluence</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ─── FOOTER (nav moved here) ─── -->
+<footer>
+  <span class="footer-name">Kamila Kijenia</span>
+  <nav class="footer-nav">
+    <a href="#about">About</a>
+    <a href="https://linkedin.com/in/kamilakijenia" target="_blank">LinkedIn</a>
+    <a href="mailto:hello@kamilakijenia.com">Email</a>
+    <a href="https://kamilakijenia.framer.website" target="_blank">Framer site</a>
+  </nav>
+  <span class="footer-copy">© 2026</span>
+</footer>
+
+</body>
+</html>
